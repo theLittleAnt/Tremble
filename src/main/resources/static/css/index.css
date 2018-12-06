@@ -1,0 +1,10 @@
+.loginContainer{
+    width: 400px;
+    height: 450px;
+    background-color: #fff9;
+    border-radius: 15px;
+    text-align: left;
+}
+.loginBtn,.registerBtn{
+    width: 30%;
+}
