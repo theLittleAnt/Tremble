@@ -4,11 +4,14 @@ package platform.cars.service;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface IUserService {
 
     User checkIn(User user);
+
+    boolean checkToken(String authToken) throws ParseException;
 
     int register(User user);
 

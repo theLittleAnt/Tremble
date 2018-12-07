@@ -21,11 +21,18 @@
     </resultMap>
 
     <select id="checkIn" resultType="platform.cars.domain.User" parameterType="platform.cars.domain.User" >
-        SELECT * FROM USERS WHERE account = #{account} and pwd = #{pwd};
+        SELECT auth_token
+        FROM USERS WHERE account = #{account} and pwd = #{pwd};
+    </select>
+
+    <select id="checkToken" parameterType="String" resultType="platform.cars.domain.User">
+        SELECT date_format(token_gen_time,'%Y-%m-%d %T')
+        FROM USERS WHERE auth_token=#{authToken};
     </select>
 
     <insert id="register"  parameterType="platform.cars.domain.User">
-        INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN) VALUES(#{account},#{pwd},#{type},#{authToken});
+        INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN,AUTH_GEN_TIME)
+        VALUES(#{account},#{pwd},#{type},#{authToken},#{authGenTime});
     </insert>
 
     <update id="updatePwd" parameterType="platform.cars.domain.User">
@@ -40,6 +47,7 @@
         UPDATE USERS
         <trim prefix="set" suffixOverrides=",">
             <if test="authToken!=null">auth_token=#{authToken},</if>
+            <if test="authGenTime!=null">auth_gen_time=#{authGenTime},</if>
         </trim>
         WHERE account=#{account};
     </update>

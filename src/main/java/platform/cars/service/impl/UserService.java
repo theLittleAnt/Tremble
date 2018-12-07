@@ -3,11 +3,15 @@ package platform.cars.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import platform.cars.dao.IUserDao;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,6 +29,32 @@ public class UserService implements IUserService {
     @Override
     public User checkIn(User user) {
         return userDao.checkIn(user);
+    }
+
+    /**
+     * 根据传入的token检查token值是否存在
+     * 如果token不存在，返回false
+     * 如果token存在，但是过期，重新生成token，返回false
+     * 如果token存在并且没有过期,返回true
+     * @param authToken
+     * @return
+     */
+    @Override
+    public boolean checkToken(String authToken) throws ParseException {
+        boolean tag = false;
+        String authGenTimeStr = userDao.checkToken(authToken).getAuthGenTime();
+
+        if(authGenTimeStr!=null){
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Date authGenTime = sdf.parse(authGenTimeStr);
+
+            if(date.getTime()-authGenTime.getTime()<30*60*1000){//毫秒级
+                tag=true;
+            }
+        }
+        return tag;
     }
 
     /**

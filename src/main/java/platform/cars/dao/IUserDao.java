@@ -10,6 +10,8 @@ public interface IUserDao {
 
     User checkIn(User user);
 
+    User checkToken(String authToken);
+
     int register(User user);
 
     int updatePwd(User user);
