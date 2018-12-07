@@ -3,11 +3,13 @@ package platform.cars.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import platform.cars.dao.IUserDao;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
+import platform.cars.utils.CommonUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,20 +23,40 @@ public class UserService implements IUserService {
     @Autowired
     private IUserDao userDao;
 
+    @Autowired
+    private CommonUtils commonUtils;
     /**
-     * 登陆
+     * 获取登录的token信息
+     * 验证token是否过期，
+     * 如果过期则重新获取token,并记录生成时间
+     * 存入user对象，更新到数据库，
+     * 返回token值
+     *
      * @param user
-     * @return 登陆的用户信息
+     * @return token字符串
      */
     @Override
-    public User checkIn(User user) {
-        return userDao.checkIn(user);
+    public String checkIn(User user) {
+        String token = userDao.checkIn(user);
+        try {
+            if(!checkToken(token)){
+                token = commonUtils.genAuthToken();
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                user.setAuthToken(token);
+                user.setTokenGenTime(sdf.format(date));
+                userDao.updateToken(user);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return token;
     }
 
     /**
      * 根据传入的token检查token值是否存在
      * 如果token不存在，返回false
-     * 如果token存在，但是过期，重新生成token，返回false
+     * 如果token存在，但是过期，返回false
      * 如果token存在并且没有过期,返回true
      * @param authToken
      * @return
@@ -42,16 +64,16 @@ public class UserService implements IUserService {
     @Override
     public boolean checkToken(String authToken) throws ParseException {
         boolean tag = false;
-        String authGenTimeStr = userDao.checkToken(authToken).getAuthGenTime();
-
-        if(authGenTimeStr!=null){
-            Date date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-            Date authGenTime = sdf.parse(authGenTimeStr);
-
-            if(date.getTime()-authGenTime.getTime()<30*60*1000){//毫秒级
-                tag=true;
+        User user =  userDao.checkToken(authToken);
+        if(null!=user){
+            String tokenGenTimeStr = user.getTokenGenTime();
+            if(null!=tokenGenTimeStr && !StringUtils.isEmpty(tokenGenTimeStr)){
+                Date date = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date tokenGenTime = sdf.parse(tokenGenTimeStr);
+                if(date.getTime()-tokenGenTime.getTime()<30*60*1000){//毫秒级
+                    tag=true;
+                }
             }
         }
         return tag;

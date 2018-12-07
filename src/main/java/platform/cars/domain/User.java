@@ -9,7 +9,7 @@ public class User extends BaseObject {
     private String pwd;
     private int type;
     private String authToken;
-    private String authGenTime;
+    private String tokenGenTime;
 
     public String getAccount() {
         return account;
@@ -43,11 +43,11 @@ public class User extends BaseObject {
         this.authToken = authToken;
     }
 
-    public String getAuthGenTime() {
-        return authGenTime;
+    public String getTokenGenTime() {
+        return tokenGenTime;
     }
 
-    public void setAuthGenTime(String authGenTime) {
-        this.authGenTime = authGenTime;
+    public void setTokenGenTime(String tokenGenTime) {
+        this.tokenGenTime = tokenGenTime;
     }
 }

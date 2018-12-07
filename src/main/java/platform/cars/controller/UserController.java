@@ -7,8 +7,9 @@ import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
 
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -18,15 +19,18 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+
     @RequestMapping("/login")
-    public String login(User user, HttpSession session) {
+    public Map<String,Object> login(User user) {
+        Map<String,Object> map = new HashMap<>();
         String msg = "fail";
-        User result = userService.checkIn(user);
-        if(null!=result){
-            session.setAttribute("userInfo",userService.findUserInfoByAccount(result.getAccount()));
+        String token = userService.checkIn(user);
+        if(null!=token){
             msg = "success";
         }
-        return msg;
+        map.put("msg",msg);
+        map.put("authToken",token);
+        return map;
     }
 
     @RequestMapping("/gain-userinfo")
@@ -37,6 +41,14 @@ public class UserController {
     @RequestMapping("/sellers")
     public List<UserInfo> getSellerList() {
         return userService.findSellerList();
+    }
+
+    @RequestMapping("/test")
+    public Map<String,Object> test(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("msg","success");
+        map.put("token","token");
+        return map;
     }
 
 

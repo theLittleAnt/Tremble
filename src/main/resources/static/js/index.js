@@ -17,7 +17,7 @@ function login() {
         url:"/cars-sale/user/login",
         data:user,
         success:function (data) {
-            if(data=="success"){
+            if(data.msg=="success"){
                 window.location.href="/cars-sale/home";
             }else{
                 alert("登陆失败");

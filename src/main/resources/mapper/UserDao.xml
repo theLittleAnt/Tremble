@@ -20,19 +20,19 @@
         <result property="qualifications" column="qualificationss" javaType="String"/>
     </resultMap>
 
-    <select id="checkIn" resultType="platform.cars.domain.User" parameterType="platform.cars.domain.User" >
+    <select id="checkIn" resultType="String" parameterType="platform.cars.domain.User" >
         SELECT auth_token
         FROM USERS WHERE account = #{account} and pwd = #{pwd};
     </select>
 
     <select id="checkToken" parameterType="String" resultType="platform.cars.domain.User">
-        SELECT date_format(token_gen_time,'%Y-%m-%d %T')
+        SELECT date_format(token_gen_time,'%Y-%m-%d %T') token_gen_time
         FROM USERS WHERE auth_token=#{authToken};
     </select>
 
     <insert id="register"  parameterType="platform.cars.domain.User">
-        INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN,AUTH_GEN_TIME)
-        VALUES(#{account},#{pwd},#{type},#{authToken},#{authGenTime});
+        INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN,TOKEN_GEN_TIME)
+        VALUES(#{account},#{pwd},#{type},#{authToken},#{tokenGenTime});
     </insert>
 
     <update id="updatePwd" parameterType="platform.cars.domain.User">
@@ -47,7 +47,7 @@
         UPDATE USERS
         <trim prefix="set" suffixOverrides=",">
             <if test="authToken!=null">auth_token=#{authToken},</if>
-            <if test="authGenTime!=null">auth_gen_time=#{authGenTime},</if>
+            <if test="tokenGenTime!=null">token_gen_time=#{tokenGenTime},</if>
         </trim>
         WHERE account=#{account};
     </update>

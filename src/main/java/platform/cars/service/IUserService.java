@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IUserService {
 
-    User checkIn(User user);
+    String checkIn(User user);
 
     boolean checkToken(String authToken) throws ParseException;
 

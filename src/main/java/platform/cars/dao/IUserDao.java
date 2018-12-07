@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IUserDao {
 
-    User checkIn(User user);
+    String checkIn(User user);
 
     User checkToken(String authToken);
 
