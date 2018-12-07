@@ -19,7 +19,6 @@ public class CommonController {
 
     @RequestMapping("/logout")
     public String logout(HttpSession session){
-        session.removeAttribute("userInfo");
         return "index";
     }
 }

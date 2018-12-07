@@ -19,7 +19,12 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-
+    /**
+     * 根据登录的账号密码返回消息，
+     * 带回token信息和用户类型
+     * @param user
+     * @return
+     */
     @RequestMapping("/login")
     public Map<String,Object> login(User user) {
         Map<String,Object> map = new HashMap<>();
@@ -31,6 +36,20 @@ public class UserController {
         map.put("msg",msg);
         map.put("user",checkedUser);
         return map;
+    }
+
+    /**
+     * 注册用户信息
+     * @param user
+     * @return
+     */
+    @RequestMapping("/register")
+    public String register(User user){
+        String msg = "fail";
+        if(userService.register(user)>0){
+            msg = "success";
+        }
+        return msg;
     }
 
     @RequestMapping("/gain-userinfo")

@@ -4,4 +4,9 @@
 <mapper namespace="platform.cars.dao.ICarInfoDao">
 
 
+    <select id="listCarInfoByPage" resultType="platform.cars.domain.CarInfo">
+        SELECT * FROM car_info LIMIT #{param1},#{param2}
+    </select>
+
+
 </mapper>

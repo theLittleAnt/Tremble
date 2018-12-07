@@ -4,7 +4,7 @@ import platform.cars.base.BaseObject;
 
 
 public class CarInfo extends BaseObject {
-    private String cardId;
+    private String carId;
     private String carName;
     private float carPrice;
     private String carMainPic;
@@ -13,12 +13,12 @@ public class CarInfo extends BaseObject {
     private String carTradePlace;
     private int carNum;
 
-    public String getCardId() {
-        return cardId;
+    public String getCarId() {
+        return carId;
     }
 
-    public void setCardId(String cardId) {
-        this.cardId = cardId;
+    public void setCarId(String cardId) {
+        this.carId = cardId;
     }
 
     public String getCarName() {

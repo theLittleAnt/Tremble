@@ -4,7 +4,6 @@ package platform.cars.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import platform.cars.dao.IUserDao;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
@@ -12,7 +11,6 @@ import platform.cars.service.IUserService;
 import platform.cars.utils.CommonUtils;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -44,11 +42,10 @@ public class UserService implements IUserService {
             try {
                 if(!checkToken(token)){
                     token = commonUtils.genAuthToken();
-                    Date date = new Date();
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    user.setAuthToken(token);
+                    user.setTokenGenTime(commonUtils.dateToStr(new Date()));
+                    userDao.updateToken(user);
                     checkedUser.setAuthToken(token);
-                    checkedUser.setTokenGenTime(sdf.format(date));
-                    userDao.updateToken(checkedUser);
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -73,8 +70,7 @@ public class UserService implements IUserService {
             String tokenGenTimeStr = user.getTokenGenTime();
             if(null!=tokenGenTimeStr && !StringUtils.isEmpty(tokenGenTimeStr)){
                 Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date tokenGenTime = sdf.parse(tokenGenTimeStr);
+                Date tokenGenTime = commonUtils.strToDate(tokenGenTimeStr);
                 if(date.getTime()-tokenGenTime.getTime()<30*60*1000){//毫秒级
                     tag=true;
                 }
@@ -84,12 +80,16 @@ public class UserService implements IUserService {
     }
 
     /**
-     * 注册
+     * 生成token以及token更新时间
+     * 传入用户对象
+     * 保存用户信息
      * @param user
      * @return 更新条数
      */
     @Override
     public int register(User user) {
+        user.setAuthToken(commonUtils.genAuthToken());
+        user.setTokenGenTime(commonUtils.dateToStr(new Date()));
         return userDao.register(user);
     }
 
