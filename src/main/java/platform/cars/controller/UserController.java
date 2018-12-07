@@ -6,11 +6,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import platform.cars.domain.User;
+import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @RestController
@@ -30,6 +32,18 @@ public class UserController {
         }
         return msg;
     }
+
+    @RequestMapping("/gain-userinfo")
+    public UserInfo test(String account) {
+        return userService.findUserInfoByAccount(account);
+    }
+
+    @RequestMapping("/sellers")
+    public List<UserInfo> getSellerList() {
+        return userService.findSellerList();
+    }
+
+
 //    @RequestMapping("/login")
 //    public String login(HttpServletRequest request, HttpServletResponse response) {
 //        boolean tag = userService.findUserById(request.getParameter("id"));

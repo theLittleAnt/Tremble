@@ -1,13 +1,17 @@
 package platform.cars.domain;
 
 
-public class UserInfo {
+import platform.cars.base.BaseObject;
+
+public class UserInfo extends BaseObject {
     private String account;
     private String name;
     private String idCard;
     private String phone;
     private String email;
     private int age;
+    private String address;
+    private String qualifications;
 
     public String getAccount() {
         return account;
@@ -55,5 +59,21 @@ public class UserInfo {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getQualifications() {
+        return qualifications;
+    }
+
+    public void setQualifications(String qualifications) {
+        this.qualifications = qualifications;
     }
 }

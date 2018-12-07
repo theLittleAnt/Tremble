@@ -9,12 +9,64 @@
         <!--<result property="type" column="type" javaType="int"/>-->
     <!--</resultMap>-->
 
+    <resultMap id="userInfoResult" type="platform.cars.domain.UserInfo">
+        <id property="account" column="account" javaType="String"/>
+        <result property="name" column="name" javaType="String"/>
+        <result property="idCard" column="id_card" javaType="String"/>
+        <result property="phone" column="phone" javaType="String"/>
+        <result property="email" column="email" javaType="String"/>
+        <result property="age" column="age" javaType="int"/>
+        <result property="address" column="address" javaType="String"/>
+        <result property="qualifications" column="qualificationss" javaType="String"/>
+    </resultMap>
+
+    <select id="checkIn" resultType="platform.cars.domain.User" parameterType="platform.cars.domain.User" >
+        SELECT * FROM USERS WHERE account = #{account} and pwd = #{pwd};
+    </select>
+
+    <insert id="register"  parameterType="platform.cars.domain.User">
+        INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN) VALUES(#{account},#{pwd},#{type},#{authToken});
+    </insert>
+
+    <update id="updatePwd" parameterType="platform.cars.domain.User">
+        UPDATE USERS
+        <trim prefix="set" suffixOverrides=",">
+            <if test="pwd!=null">pwd=#{pwd},</if>
+        </trim>
+        WHERE account=#{account};
+    </update>
+
+    <update id="updateToken" parameterType="platform.cars.domain.User">
+        UPDATE USERS
+        <trim prefix="set" suffixOverrides=",">
+            <if test="authToken!=null">auth_token=#{authToken},</if>
+        </trim>
+        WHERE account=#{account};
+    </update>
+    
+    <update id="updateUserInfo" parameterType="platform.cars.domain.UserInfo">
+        UPDATE USER_INFO
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">name=#{name},</if>
+            <if test="idCard!=null">id_card=#{idCard},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+
+            <if test="email!=null">email=#{email},</if>
+            <if test="age!=null">age=#{age},</if>
+            <if test="address!=null">address=#{address},</if>
+            <if test="qualifications!=null">qualifications=#{qualifications},</if>
+        </trim>
+        WHERE account = #{account};
+    </update>
+
     <select id="findUserInfoByAccount" resultType="platform.cars.domain.UserInfo" parameterType="String" >
         SELECT * FROM USER_INFO WHERE account = #{account};
     </select>
 
-    <select id="checkIn" resultType="platform.cars.domain.User" parameterType="platform.cars.domain.User" >
-        SELECT * FROM USERS WHERE account = #{account} and pwd = #{pwd};
+    <select id="findSellerList" resultMap="userInfoResult" >
+        SELECT USER_INFO.account,USER_INFO.name,USER_INFO.id_card,USER_INFO.phone,
+               USER_INFO.email,USER_INFO.age,USER_INFO.address,USER_INFO.qualifications
+        from USERS,USER_INFO WHERE USERS.type='1' and USERS.account = USER_INFO.account;
     </select>
 
 </mapper>
