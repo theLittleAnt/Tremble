@@ -20,8 +20,8 @@
         <result property="qualifications" column="qualificationss" javaType="String"/>
     </resultMap>
 
-    <select id="checkIn" resultType="String" parameterType="platform.cars.domain.User" >
-        SELECT auth_token
+    <select id="checkIn" resultType="platform.cars.domain.User" parameterType="platform.cars.domain.User" >
+        SELECT auth_token,type
         FROM USERS WHERE account = #{account} and pwd = #{pwd};
     </select>
 

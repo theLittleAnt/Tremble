@@ -36,21 +36,25 @@ public class UserService implements IUserService {
      * @return token字符串
      */
     @Override
-    public String checkIn(User user) {
-        String token = userDao.checkIn(user);
-        try {
-            if(!checkToken(token)){
-                token = commonUtils.genAuthToken();
-                Date date = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                user.setAuthToken(token);
-                user.setTokenGenTime(sdf.format(date));
-                userDao.updateToken(user);
+    public User checkIn(User user) {
+        User checkedUser = userDao.checkIn(user);
+        String token = null;
+        if(null!=checkedUser){
+            token = checkedUser.getAuthToken();
+            try {
+                if(!checkToken(token)){
+                    token = commonUtils.genAuthToken();
+                    Date date = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    checkedUser.setAuthToken(token);
+                    checkedUser.setTokenGenTime(sdf.format(date));
+                    userDao.updateToken(checkedUser);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
-        return token;
+        return checkedUser;
     }
 
     /**

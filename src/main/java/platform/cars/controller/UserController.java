@@ -24,12 +24,12 @@ public class UserController {
     public Map<String,Object> login(User user) {
         Map<String,Object> map = new HashMap<>();
         String msg = "fail";
-        String token = userService.checkIn(user);
-        if(null!=token){
+        User checkedUser = userService.checkIn(user);
+        if(null!=checkedUser){
             msg = "success";
         }
         map.put("msg",msg);
-        map.put("authToken",token);
+        map.put("user",checkedUser);
         return map;
     }
 
