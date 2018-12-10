@@ -14,41 +14,41 @@
     <title>home page</title>
 </head>
 <body>
-    <jsp:include page="../../jsp/component/header.jsp"/>
+    <jsp:include page="../component/header.jsp"/>
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
-                <jsp:include page="../../jsp/component/car_item.jsp"/>
+                <jsp:include page="../component/car_item.jsp"/>
             </div>
         </div>
 
         <div>
-            <jsp:include page="../../jsp/component/car_item.jsp"/>
+            <jsp:include page="../component/car_item.jsp"/>
         </div>
-        <jsp:include page="../../jsp/component/footer.jsp"/>
+        <jsp:include page="../component/footer.jsp"/>
     </div>
 
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
