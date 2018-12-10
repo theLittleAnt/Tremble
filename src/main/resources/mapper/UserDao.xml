@@ -40,7 +40,7 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="pwd!=null">pwd=#{pwd},</if>
         </trim>
-        WHERE account=#{account};
+        WHERE auth_token=#{authToken};
     </update>
 
     <update id="updateToken" parameterType="platform.cars.domain.User">
@@ -64,11 +64,15 @@
             <if test="address!=null">address=#{address},</if>
             <if test="qualifications!=null">qualifications=#{qualifications},</if>
         </trim>
-        WHERE account = #{account};
+        WHERE  auth_token = #{authToken} ;
     </update>
 
     <select id="findUserInfoByAccount" resultType="platform.cars.domain.UserInfo" parameterType="String" >
         SELECT * FROM USER_INFO WHERE account = #{account};
+    </select>
+
+    <select id="findUserInfoByToken" resultType="platform.cars.domain.User" parameterType="String" >
+        SELECT account FROM USERS WHERE auth_token = #{authToken};
     </select>
 
     <select id="findSellerList" resultMap="userInfoResult" >

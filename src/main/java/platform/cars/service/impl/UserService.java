@@ -39,16 +39,12 @@ public class UserService implements IUserService {
         String token = null;
         if(null!=checkedUser){
             token = checkedUser.getAuthToken();
-            try {
-                if(!checkToken(token)){
-                    token = commonUtils.genAuthToken();
-                    user.setAuthToken(token);
-                    user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-                    userDao.updateToken(user);
-                    checkedUser.setAuthToken(token);
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(!checkToken(token)){
+                token = commonUtils.genAuthToken();
+                user.setAuthToken(token);
+                user.setTokenGenTime(commonUtils.dateToStr(new Date()));
+                userDao.updateToken(user);
+                checkedUser.setAuthToken(token);
             }
         }
         return checkedUser;
@@ -63,7 +59,7 @@ public class UserService implements IUserService {
      * @return
      */
     @Override
-    public boolean checkToken(String authToken) throws ParseException {
+    public boolean checkToken(String authToken){
         boolean tag = false;
         User user =  userDao.checkToken(authToken);
         if(null!=user){
@@ -94,13 +90,19 @@ public class UserService implements IUserService {
     }
 
     /**
-     * 修改用户密码
+     * 根据token修改用户密码
      * @param user
-     * @return 更新条数
+     * @return 是否更新成功
      */
     @Override
-    public int updatePwd(User user) {
-        return userDao.updatePwd(user);
+    public boolean updatePwd(User user) {
+        boolean result = false;
+        if(null!=user && null!=user.getAuthToken() && null!=user.getPwd() && checkToken(user.getAuthToken())){
+            if(userDao.updatePwd(user)>0){
+                result=true;
+            }
+        }
+        return result;
     }
 
     /**
@@ -116,11 +118,18 @@ public class UserService implements IUserService {
     /**
      * 更新用户信息
      * @param userInfo
-     * @return 更新条数
+     * @return 是否更新成功
      */
     @Override
-    public int updateUserInfo(UserInfo userInfo) {
-        return userDao.updateUserInfo(userInfo);
+    public boolean updateUserInfo(UserInfo userInfo,String authToken) {
+        boolean result = false;
+        if(checkToken(authToken)){
+            userInfo.setAccount(userDao.findUserInfoByToken(authToken).getAccount());
+            if(userDao.updateUserInfo(userInfo)>0){
+                result=true;
+            }
+        }
+        return result;
     }
 
     /**
@@ -131,6 +140,16 @@ public class UserService implements IUserService {
     @Override
     public UserInfo findUserInfoByAccount(String account){
         return userDao.findUserInfoByAccount(account);
+    }
+
+    /**
+     * 根据传入的token获取用户信息
+     * @param authToken
+     * @return
+     */
+    @Override
+    public User findUserInfoByToken(String authToken) {
+        return userDao.findUserInfoByToken(authToken);
     }
 
     /**

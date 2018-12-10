@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
+import platform.cars.utils.CommonUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,15 +53,50 @@ public class UserController {
         return msg;
     }
 
-    @RequestMapping("/gain-userinfo")
+//    @RequestMapping("/gain-userinfo")
     public UserInfo test(String account) {
         return userService.findUserInfoByAccount(account);
     }
 
+    /**
+     * 获取卖家信息列表
+     * @param token
+     * @return
+     */
     @RequestMapping("/sellers")
-    public List<UserInfo> getSellerList() {
+    public List<UserInfo> getSellerList(String token) {
         return userService.findSellerList();
     }
+
+    /**
+     * 修改用户密码
+     * @param user
+     * @return
+     */
+    @RequestMapping("alter-pwd")
+    public String alterPwd(User user){
+        String msg = "fail";
+        if(userService.updatePwd(user)){
+            msg = "success";
+        }
+        return msg;
+    }
+
+    /**
+     * 修改用户信息
+     * @param userInfo
+     * @return
+     */
+    @RequestMapping("alter-userinfo")
+    public String alterUserInfo(UserInfo userInfo,String authToken){
+        String msg = "fail";
+        if(userService.updateUserInfo(userInfo,authToken)){
+            msg="success";
+        }
+        return msg;
+    }
+
+
 
     @RequestMapping("/test")
     public Map<String,Object> test(){
@@ -69,7 +105,6 @@ public class UserController {
         map.put("token","token");
         return map;
     }
-
 
 //    @RequestMapping("/login")
 //    public String login(HttpServletRequest request, HttpServletResponse response) {

@@ -7,7 +7,6 @@ public class Bill extends BaseObject {
     private String billId;
     private int status;
     private String buyerAccount;
-    private String sallerAccount;
     private String carId;
 
     public String getBillId() {
@@ -32,14 +31,6 @@ public class Bill extends BaseObject {
 
     public void setBuyerAccount(String buyerAccount) {
         this.buyerAccount = buyerAccount;
-    }
-
-    public String getSallerAccount() {
-        return sallerAccount;
-    }
-
-    public void setSallerAccount(String sallerAccount) {
-        this.sallerAccount = sallerAccount;
     }
 
     public String getCarId() {

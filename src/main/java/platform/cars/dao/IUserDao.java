@@ -22,5 +22,7 @@ public interface IUserDao {
 
     UserInfo findUserInfoByAccount(String account);
 
+    User findUserInfoByToken(String authToken);
+
     List<UserInfo> findSellerList();
 }

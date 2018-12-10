@@ -3,4 +3,11 @@
 
 <mapper namespace="platform.cars.dao.IBillDao">
 
+
+    <insert id="saveBillInfo" parameterType="platform.cars.domain.Bill">
+        INSERT INTO bills (bill_id,status,buyer_account,car_id)
+        VALUES(#{billId},0,#{buyerAccount},#{carId});
+
+    </insert>
+
 </mapper>

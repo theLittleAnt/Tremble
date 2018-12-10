@@ -5,8 +5,17 @@
 
 
     <select id="listCarInfoByPage" resultType="platform.cars.domain.CarInfo">
-        SELECT * FROM car_info LIMIT #{param1},#{param2}
+        SELECT * FROM car_info WHERE car_num>0 LIMIT #{param1},#{param2}
     </select>
+
+    <select id="findCarInfoByCardId" parameterType="String" resultType="platform.cars.domain.CarInfo">
+        SELECT * FROM car_info WHERE car_id = #{carId};
+    </select>
+
+    <update id="decreaseNumOfCar" parameterType="String">
+        update car_info set car_num=car_num-1 where car_id=#{carId};
+    </update>
+
 
 
 </mapper>

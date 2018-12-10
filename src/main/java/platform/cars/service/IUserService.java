@@ -15,13 +15,15 @@ public interface IUserService {
 
     int register(User user);
 
-    int updatePwd(User user);
+    boolean updatePwd(User user);
 
     int updateToken(User user);
 
-    int updateUserInfo(UserInfo userInfo);
+    boolean updateUserInfo(UserInfo userInfo,String authToken);
 
     UserInfo findUserInfoByAccount(String account);
+
+    User findUserInfoByToken(String authToken);
 
     List<UserInfo> findSellerList();
 }
