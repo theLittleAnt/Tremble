@@ -2,6 +2,7 @@ package platform.cars.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import platform.cars.dao.IBillDao;
 import platform.cars.dao.IUserDao;
@@ -32,11 +33,12 @@ public class BillService implements IBillService {
      * @return
      */
     @Override
+    @Transactional
     public boolean saveBillInfo(Bill bill) {
         boolean result = false;
-        bill.setBuyerAccount(commonUtils.genAuthToken());
-        if(billDao.saveBillInfo(bill)>0){
-            result=true;
+        if(null!=bill){
+            bill.setBuyerAccount(commonUtils.genAuthToken());
+            result = billDao.saveBillInfo(bill)>0?true:false;
         }
         return result;
     }
@@ -62,7 +64,7 @@ public class BillService implements IBillService {
      * @return
      */
     @Override
-    public Map<String,Object> findPaginatedBill(int page, int size , String authToken) {
+    public Map<String,Object> findBuyerPaginatedBill(int page, int size , String authToken) {
         Map<String,Object> bills = new HashMap<>();
         User user = userDao.findUserByToken(authToken);
         if (null!=user){
@@ -70,7 +72,7 @@ public class BillService implements IBillService {
         }
         page = page<=0?1:page;
         size = size<=0?10:size;
-        bills.put("billsData",billDao.findPaginatedBill((page-1)*size,size));
+        bills.put("billsData",billDao.findBuyerPaginatedBill((page-1)*size,size,user.getAccount()));
         return bills;
     }
 
@@ -80,8 +82,13 @@ public class BillService implements IBillService {
      * @return
      */
     @Override
+    @Transactional
     public boolean alterBillStatus(Bill bill) {
-        return billDao.alterBillStatus(bill)>0?true:false;
+        boolean result = false;
+        if(null!=bill){
+            result = billDao.alterBillStatus(bill)>0?true:false;
+        }
+        return result;
     }
 
     /**
@@ -91,5 +98,25 @@ public class BillService implements IBillService {
     @Override
     public List<Bill> findAllBillByBuyerAccount(String buyerAccount) {
         return billDao.findAllBillByBuyerAccount(buyerAccount);
+    }
+
+    /**
+     * 返回卖家收到的订单信息
+     * @param page
+     * @param size
+     * @param authToken
+     * @return
+     */
+    @Override
+    public Map<String, Object> findSallerPaginatedBill(int page, int size, String authToken) {
+        Map<String,Object> bills = new HashMap<>();
+        User user = userDao.findUserByToken(authToken);
+        if (null!=user){
+            bills.put("totalSize",billDao.findAllBillBySallerAccount(user.getAccount()).size());
+        }
+        page = page<=0?1:page;
+        size = size<=0?10:size;
+        bills.put("billsData",billDao.findSallerPaginatedBill((page-1)*size,size,user.getAccount()));
+        return bills;
     }
 }

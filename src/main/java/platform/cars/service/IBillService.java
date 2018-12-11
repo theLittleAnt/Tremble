@@ -11,9 +11,12 @@ public interface IBillService {
 
     Bill findOneBill(String billId);
 
-    Map<String,Object> findPaginatedBill(int page, int size ,String authToken);
+    Map<String,Object> findBuyerPaginatedBill(int page, int size ,String authToken);
 
     boolean alterBillStatus(Bill bill);
 
     List<Bill> findAllBillByBuyerAccount(String buyerAccount);
+
+    Map<String,Object> findSallerPaginatedBill(int page, int size, String carOwner);
+
 }

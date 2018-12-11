@@ -3,6 +3,7 @@ package platform.cars.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import platform.cars.dao.IUserDao;
 import platform.cars.domain.User;
@@ -16,6 +17,7 @@ import java.util.List;
 
 
 @Service
+@Transactional
 public class UserService implements IUserService {
 
     @Autowired
@@ -29,22 +31,23 @@ public class UserService implements IUserService {
      * 如果过期则重新获取token,并记录生成时间
      * 存入user对象，更新到数据库，
      * 返回token值
-     *
      * @param user
      * @return token字符串
      */
     @Override
     public User checkIn(User user) {
-        User checkedUser = userDao.checkIn(user);
-        String token = null;
-        if(null!=checkedUser){
-            token = checkedUser.getAuthToken();
-            if(!checkToken(token)){
-                token = commonUtils.genAuthToken();
-                user.setAuthToken(token);
-                user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-                userDao.updateToken(user);
-                checkedUser.setAuthToken(token);
+        User checkedUser = null;
+        if(null!=user) {
+            checkedUser = userDao.checkIn(user);
+            if(null!=checkedUser){
+                String token = checkedUser.getAuthToken();
+                if(!checkToken(token)){
+                    token = commonUtils.genAuthToken();
+                    user.setAuthToken(token);
+                    user.setTokenGenTime(commonUtils.dateToStr(new Date()));
+                    userDao.updateToken(user);
+                    checkedUser.setAuthToken(token);
+                }
             }
         }
         return checkedUser;
@@ -83,10 +86,15 @@ public class UserService implements IUserService {
      * @return 更新条数
      */
     @Override
-    public int register(User user) {
-        user.setAuthToken(commonUtils.genAuthToken());
-        user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-        return userDao.saveUser(user);
+    @Transactional
+    public boolean register(User user) {
+        boolean result = false;
+        if(null!=user){
+            user.setAuthToken(commonUtils.genAuthToken());
+            user.setTokenGenTime(commonUtils.dateToStr(new Date()));
+            result = userDao.saveUser(user)>0?true:false;
+        }
+        return result;
     }
 
     /**
@@ -95,9 +103,10 @@ public class UserService implements IUserService {
      * @return 是否更新成功
      */
     @Override
+    @Transactional
     public boolean updatePwd(User user) {
         boolean result = false;
-        if(null!=user && null!=user.getAuthToken() && null!=user.getPwd() && checkToken(user.getAuthToken())){
+        if(null!=user && !StringUtils.isEmpty(user.getAuthToken()) && !StringUtils.isEmpty(user.getPwd()) && checkToken(user.getAuthToken())){
             if(userDao.updatePwd(user)>0){
                 result=true;
             }
@@ -106,13 +115,25 @@ public class UserService implements IUserService {
     }
 
     /**
+     * 修改用户的类型
+     * @param authToken
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean updateType(String authToken) {
+        return userDao.updateType(authToken)>0?true:false;
+    }
+
+    /**
      * 更新token值
      * @param user
      * @return
      */
     @Override
-    public int updateToken(User user) {
-        return userDao.updateToken(user);
+    @Transactional
+    public boolean updateToken(User user) {
+        return userDao.updateToken(user)>0?true:false;
     }
 
     /**
@@ -121,9 +142,10 @@ public class UserService implements IUserService {
      * @return 是否更新成功
      */
     @Override
+    @Transactional
     public boolean updateUserInfo(UserInfo userInfo,String authToken) {
         boolean result = false;
-        if(checkToken(authToken)){
+        if(checkToken(authToken) && null!=userInfo){
             userInfo.setAccount(userDao.findUserByToken(authToken).getAccount());
             if(userDao.updateUserInfo(userInfo)>0){
                 result=true;

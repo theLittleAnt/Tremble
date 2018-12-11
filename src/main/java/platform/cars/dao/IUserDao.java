@@ -16,6 +16,8 @@ public interface IUserDao {
 
     int updatePwd(User user);
 
+    int updateType(String authToken);
+
     int updateToken(User user);
 
     User findUserByToken(String authToken);

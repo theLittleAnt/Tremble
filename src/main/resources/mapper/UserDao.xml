@@ -43,6 +43,11 @@
         WHERE auth_token=#{authToken};
     </update>
 
+    <update id="updateType" parameterType="String">
+        UPDATE USERS SET type=1
+        WHERE auth_token=#{authToken};
+    </update>
+
     <update id="updateToken" parameterType="platform.cars.domain.User">
         UPDATE USERS
         <trim prefix="set" suffixOverrides=",">

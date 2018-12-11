@@ -21,6 +21,23 @@ public class BillController {
     @Autowired
     private IUserService userService;
 
+
+    /**
+     * 保存订单信息
+     * @param bill
+     * @param authToken
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping("/save")
+    public String saveBillInfo(Bill bill,String authToken) throws ParseException {
+        String msg = "fail";
+        if(userService.checkToken(authToken) && billService.saveBillInfo(bill)){
+            msg = "success";
+        }
+        return msg;
+    }
+
     /**
      * 根据订单id获取订单信息
      * @param billId
@@ -42,11 +59,11 @@ public class BillController {
      * @param authToken
      * @return
      */
-    @RequestMapping("/paginated")
-    public Map<String,Object> getPaginatedBillInfo(int page,int size,String authToken) throws ParseException {
+    @RequestMapping("/paginated-buyer")
+    public Map<String,Object> getBuyerPaginatedBillInfo(int page,int size,String authToken) throws ParseException {
         Map<String,Object> billMap = null;
         if(userService.checkToken(authToken)){
-            billMap = billService.findPaginatedBill(page,size,authToken);
+            billMap = billService.findBuyerPaginatedBill(page,size,authToken);
         }
         return billMap;
     }
@@ -64,5 +81,14 @@ public class BillController {
             msg="success";
         }
         return msg;
+    }
+
+    @RequestMapping("/paginated-saller")
+    Map<String,Object> findSallerPaginatedBill(int page, int size, String authToken) throws ParseException {
+        Map<String,Object> bills = null;
+        if(userService.checkToken(authToken)){
+            bills = billService.findSallerPaginatedBill(page,size,authToken);
+        }
+        return bills;
     }
 }

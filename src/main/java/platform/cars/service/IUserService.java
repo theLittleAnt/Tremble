@@ -13,11 +13,13 @@ public interface IUserService {
 
     boolean checkToken(String authToken) throws ParseException;
 
-    int register(User user);
+    boolean register(User user);
 
     boolean updatePwd(User user);
 
-    int updateToken(User user);
+    boolean updateType(String authToken);
+
+    boolean updateToken(User user);
 
     boolean updateUserInfo(UserInfo userInfo,String authToken);
 

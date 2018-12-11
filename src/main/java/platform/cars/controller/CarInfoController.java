@@ -1,13 +1,17 @@
 package platform.cars.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
+import platform.cars.domain.User;
 import platform.cars.service.ICarInfoService;
 import platform.cars.service.IUserService;
 
+import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -47,15 +51,72 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("buy")
-    public String buyCar(Bill bill,String authToken){
+    public String buyCar(Bill bill,String authToken) throws ParseException {
         String msg = "fail";
-        try{
-            if(null!=bill && null!=authToken && userService.checkToken(authToken) && carInfoService.buy(bill,authToken)){
-                msg = "success";
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        if(userService.checkToken(authToken) && carInfoService.buy(bill,authToken)){
+            msg = "success";
         }
         return msg;
     }
+
+    /**
+     * 删除车辆信息
+     * @param carId
+     * @param authToken
+     * @return
+     */
+    @RequestMapping("drop")
+    public String dropCar(String carId,String authToken) throws ParseException {
+        String msg = "fail";
+        if(userService.checkToken(authToken)){
+            carInfoService.dropCarInfo(carId);
+            msg = "success";
+        }
+        return msg;
+    }
+
+    /**
+     * 保存车辆信息
+     * @return
+     */
+    @RequestMapping("/save")
+    public String saveCar(CarInfo carInfo,String authToken) throws ParseException {
+        String msg = "fail";
+        if(userService.checkToken(authToken) && carInfoService.saveCarInfo(carInfo)){
+            msg = "success";
+        }
+        return msg;
+    }
+
+    /**
+     * 修改车辆信息
+     * @return
+     */
+    @RequestMapping("/update")
+    public String updateCar(CarInfo carInfo,String authToken) throws ParseException {
+        String msg = "fail";
+        if(userService.checkToken(authToken) && carInfoService.updateCarInfo(carInfo)){
+            msg = "success";
+        }
+        return msg;
+    }
+
+    /**
+     * 获取卖家出售的所有车辆信息
+     * @param page
+     * @param size
+     * @param authToken
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping("/owners")
+    public Map<String,Object> paginatedCarInfoByOwner(int page,int size,String authToken) throws ParseException {
+        Map<String,Object> bills = null;
+        if(userService.checkToken(authToken)){
+            User user = userService.findUserByToken(authToken);
+            bills = carInfoService.findPaginatedCarInfoByOwner(page,size,user.getAccount());
+        }
+        return bills;
+    }
+
 }
