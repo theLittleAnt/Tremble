@@ -1,14 +1,13 @@
 package platform.cars.service;
 
 
-import jdk.nashorn.internal.parser.Token;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
 
-import java.util.List;
+import java.util.Map;
 
 public interface ICarInfoService {
-    List<CarInfo> listCarInfoByPage(int page, int size);
+    Map<String,Object> listCarInfoByPage(int page, int size);
 
     CarInfo getCarInfoByCarId(String carId);
 

@@ -3,19 +3,54 @@
 
 <mapper namespace="platform.cars.dao.ICarInfoDao">
 
+    <insert id="saveCarInfo" parameterType="platform.cars.domain.CarInfo">
+        INSERT INTO car_info(car_id,car_name,car_price,car_main_pic,
+                    car_description,car_owner,car_trade_place,car_num)
+               VALUES(carId,carName,carPrice,carMainPic,
+                    carDescription,carOwner,carTradePlace,carNum);
+    </insert>
+
+    <delete id="dropCarInfo" parameterType="String">
+        DELETE FROM car_info WHERE car_id = #(carId);
+    </delete>
+
+    <update id="decreaseNumOfCar" parameterType="String">
+        update car_info set car_num=car_num-1 where car_id=#{carId};
+    </update>
+    
+    <update id="updateCarInfo" parameterType="platform.cars.domain.CarInfo">
+        UPDATE car_info
+        <trim prefix="set" suffix=",">
+            <if test="car_name!=null">car_name=#{carName},</if>
+            <if test="car_price!=null">car_price=#{carPrice},</if>
+            <if test="car_main_pic!=null">car_main_pic=#{carMainPic},</if>
+            <if test="car_description!=null">car_description=#{carDescription},</if>
+            <if test="car_owner!=null">car_owner=#{carOwner},</if>
+            <if test="car_trade_place!=null">car_trade_place=#{carTradePlace},</if>
+            <if test="car_num!=null">car_num=#{carNum},</if>
+        </trim>
+        WHERE car_id = #{carId};
+    </update>
 
     <select id="listCarInfoByPage" resultType="platform.cars.domain.CarInfo">
         SELECT * FROM car_info WHERE car_num>0 LIMIT #{param1},#{param2}
+    </select>
+
+    <select id="findAllCarInfo" resultType="platform.cars.domain.CarInfo">
+        SELECT * FROM car_info WHERE car_num>0
     </select>
 
     <select id="findCarInfoByCardId" parameterType="String" resultType="platform.cars.domain.CarInfo">
         SELECT * FROM car_info WHERE car_id = #{carId};
     </select>
 
-    <update id="decreaseNumOfCar" parameterType="String">
-        update car_info set car_num=car_num-1 where car_id=#{carId};
-    </update>
+    <select id="findAllCarInfoByOwner" parameterType="String" resultType="platform.cars.domain.CarInfo">
+        SELECT * FROM car_info WHERE car_owner = #{carOwner};
+    </select>
 
+    <select id="findPaginatedCarInfoByOwner" resultType="platform.cars.domain.CarInfo">
+        SELECT * FROM car_info WHERE car_owner = #{param3} LIMIT #{param1},#{param2}
+    </select>
 
 
 </mapper>

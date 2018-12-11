@@ -30,7 +30,7 @@
         FROM USERS WHERE auth_token=#{authToken};
     </select>
 
-    <insert id="register"  parameterType="platform.cars.domain.User">
+    <insert id="saveUser"  parameterType="platform.cars.domain.User">
         INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN,TOKEN_GEN_TIME)
         VALUES(#{account},#{pwd},#{type},#{authToken},#{tokenGenTime});
     </insert>
@@ -51,6 +51,14 @@
         </trim>
         WHERE account=#{account};
     </update>
+
+    <select id="findUserByToken" resultType="platform.cars.domain.User" parameterType="String" >
+        SELECT account FROM USERS WHERE auth_token = #{authToken};
+    </select>
+
+    <insert id="saveUserInfo" parameterType="String">
+        INSERT INTO USER_INFO SET account = #{account};
+    </insert>
     
     <update id="updateUserInfo" parameterType="platform.cars.domain.UserInfo">
         UPDATE USER_INFO
@@ -58,21 +66,16 @@
             <if test="name!=null">name=#{name},</if>
             <if test="idCard!=null">id_card=#{idCard},</if>
             <if test="phone!=null">phone=#{phone},</if>
-
             <if test="email!=null">email=#{email},</if>
             <if test="age!=null">age=#{age},</if>
             <if test="address!=null">address=#{address},</if>
             <if test="qualifications!=null">qualifications=#{qualifications},</if>
         </trim>
-        WHERE  auth_token = #{authToken} ;
+        WHERE  account = #{account};
     </update>
 
     <select id="findUserInfoByAccount" resultType="platform.cars.domain.UserInfo" parameterType="String" >
         SELECT * FROM USER_INFO WHERE account = #{account};
-    </select>
-
-    <select id="findUserInfoByToken" resultType="platform.cars.domain.User" parameterType="String" >
-        SELECT account FROM USERS WHERE auth_token = #{authToken};
     </select>
 
     <select id="findSellerList" resultMap="userInfoResult" >

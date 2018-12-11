@@ -23,7 +23,7 @@ public interface IUserService {
 
     UserInfo findUserInfoByAccount(String account);
 
-    User findUserInfoByToken(String authToken);
+    User findUserByToken(String authToken);
 
     List<UserInfo> findSellerList();
 }

@@ -7,7 +7,44 @@
     <insert id="saveBillInfo" parameterType="platform.cars.domain.Bill">
         INSERT INTO bills (bill_id,status,buyer_account,car_id)
         VALUES(#{billId},0,#{buyerAccount},#{carId});
-
     </insert>
+
+    <update id="alterBillStatus" parameterType="platform.cars.domain.Bill">
+        UPDATE BILLS
+        <trim prefix="set" suffix=",">
+            <if test="status!=null">status=#{status},</if>
+        </trim>
+        WHERE bill_id = #{billId};
+    </update>
+    
+    <delete id="dropBillByBillId" parameterType="String">
+        DELETE FROM BILLS where bill_id = #{billId}
+    </delete>
+    
+    <select id="findOneBill" parameterType="String" resultType="platform.cars.domain.Bill">
+        SELECT * FROM BILLS WHERE bill_id = #{billId};
+    </select>
+
+
+    <select id="findBuyerPaginatedBill" resultType="platform.cars.domain.Bill">
+        SELECT * FROM BILLS WHERE buyer_account=#{param3} LIMIT #{param1},#{param2};
+    </select>
+
+    <select id="findAllBillByBuyerAccount" parameterType="String" resultType="platform.cars.domain.Bill">
+        SELECT * FROM BILLS WHERE buyer_account=#{buyerAccount};
+    </select>
+
+    <select id="findSallerPaginatedBill" resultType="platform.cars.domain.Bill">
+        SELECT * FROM BILLS where car_id in(
+            SELECT car_id FROM car_info WHERE car_owner = #{param3}
+        ) LIMIT #{param1},#{param2};
+    </select>
+
+    <select id="findAllBillBySallerAccount" parameterType="String" resultType="platform.cars.domain.Bill">
+        SELECT * FROM BILLS where car_id in(
+            SELECT car_id FROM car_info WHERE car_owner = #{carOwner}
+        );
+    </select>
+
 
 </mapper>

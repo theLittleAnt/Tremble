@@ -11,7 +11,9 @@ import platform.cars.domain.User;
 import platform.cars.service.ICarInfoService;
 import platform.cars.utils.CommonUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CarInfoService implements ICarInfoService {
@@ -34,8 +36,13 @@ public class CarInfoService implements ICarInfoService {
      * @return
      */
     @Override
-    public List<CarInfo> listCarInfoByPage(int page, int size) {
-        return carInfoDao.listCarInfoByPage((page-1)*size,size);
+    public Map<String,Object> listCarInfoByPage(int page, int size) {
+        Map<String,Object> cars = new HashMap<>();
+        cars.put("totalSize",carInfoDao.findAllCarInfo().size());
+        page = page<=0?1:page;
+        size = size<=0?10:size;
+        cars.put("carsData",carInfoDao.listCarInfoByPage((page-1)*size,size));
+        return cars;
     }
 
     /**
@@ -72,7 +79,7 @@ public class CarInfoService implements ICarInfoService {
         boolean result = false;
         try {
             if(null!=bill.getCarId()){
-                User buyer= userDao.findUserInfoByToken(authToken);
+                User buyer= userDao.findUserByToken(authToken);
                 if(buyer!=null){
                     carInfoDao.decreaseNumOfCar(bill.getCarId());
                     bill.setBuyerAccount(buyer.getAccount());

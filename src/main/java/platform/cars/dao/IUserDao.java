@@ -12,17 +12,19 @@ public interface IUserDao {
 
     User checkToken(String authToken);
 
-    int register(User user);
+    int saveUser(User user);
 
     int updatePwd(User user);
 
     int updateToken(User user);
 
+    User findUserByToken(String authToken);
+
+    int saveUserInfo(UserInfo userInfo);
+
     int updateUserInfo(UserInfo userInfo);
 
     UserInfo findUserInfoByAccount(String account);
-
-    User findUserInfoByToken(String authToken);
 
     List<UserInfo> findSellerList();
 }

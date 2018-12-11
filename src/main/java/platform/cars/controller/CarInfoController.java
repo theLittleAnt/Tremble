@@ -5,13 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
-import platform.cars.domain.User;
-import platform.cars.service.IBillService;
 import platform.cars.service.ICarInfoService;
 import platform.cars.service.IUserService;
-import platform.cars.utils.CommonUtils;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("car-info")
@@ -29,7 +26,7 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("/paginated")
-    public List<CarInfo> paginatedCarInfo(int page,int size){
+    public Map<String,Object> paginatedCarInfo(int page, int size){
         return carInfoService.listCarInfoByPage(page,size);
     }
 

@@ -86,7 +86,7 @@ public class UserService implements IUserService {
     public int register(User user) {
         user.setAuthToken(commonUtils.genAuthToken());
         user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-        return userDao.register(user);
+        return userDao.saveUser(user);
     }
 
     /**
@@ -124,7 +124,7 @@ public class UserService implements IUserService {
     public boolean updateUserInfo(UserInfo userInfo,String authToken) {
         boolean result = false;
         if(checkToken(authToken)){
-            userInfo.setAccount(userDao.findUserInfoByToken(authToken).getAccount());
+            userInfo.setAccount(userDao.findUserByToken(authToken).getAccount());
             if(userDao.updateUserInfo(userInfo)>0){
                 result=true;
             }
@@ -148,8 +148,8 @@ public class UserService implements IUserService {
      * @return
      */
     @Override
-    public User findUserInfoByToken(String authToken) {
-        return userDao.findUserInfoByToken(authToken);
+    public User findUserByToken(String authToken) {
+        return userDao.findUserByToken(authToken);
     }
 
     /**
