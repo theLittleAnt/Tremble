@@ -21,4 +21,9 @@ public class CommonController {
     public String logout(HttpSession session){
         return "index";
     }
+
+    @RequestMapping("/file")
+    public String file(){
+        return "upload";
+    }
 }
