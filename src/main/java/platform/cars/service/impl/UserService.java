@@ -17,7 +17,6 @@ import java.util.List;
 
 
 @Service
-@Transactional
 public class UserService implements IUserService {
 
     @Autowired
@@ -106,7 +105,7 @@ public class UserService implements IUserService {
     @Transactional
     public boolean updatePwd(User user) {
         boolean result = false;
-        if(null!=user && !StringUtils.isEmpty(user.getAuthToken()) && !StringUtils.isEmpty(user.getPwd()) && checkToken(user.getAuthToken())){
+        if(null!=user&& !StringUtils.isEmpty(user.getPwd())){
             if(userDao.updatePwd(user)>0){
                 result=true;
             }
@@ -145,7 +144,7 @@ public class UserService implements IUserService {
     @Transactional
     public boolean updateUserInfo(UserInfo userInfo,String authToken) {
         boolean result = false;
-        if(checkToken(authToken) && null!=userInfo){
+        if(null!=userInfo){
             userInfo.setAccount(userDao.findUserByToken(authToken).getAccount());
             if(userDao.updateUserInfo(userInfo)>0){
                 result=true;

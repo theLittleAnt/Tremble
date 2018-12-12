@@ -17,6 +17,6 @@ public interface IBillService {
 
     List<Bill> findAllBillByBuyerAccount(String buyerAccount);
 
-    Map<String,Object> findSallerPaginatedBill(int page, int size, String carOwner);
+    Map<String,Object> findSellerPaginatedBill(int page, int size, String carOwner);
 
 }

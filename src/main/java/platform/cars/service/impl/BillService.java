@@ -28,6 +28,7 @@ public class BillService implements IBillService {
     private IUserDao userDao;
 
     /**
+     * @Transactional 用于事务管理，对于增删改加事务，查放开
      * 保存订单信息
      * @param bill
      * @return
@@ -108,7 +109,7 @@ public class BillService implements IBillService {
      * @return
      */
     @Override
-    public Map<String, Object> findSallerPaginatedBill(int page, int size, String authToken) {
+    public Map<String, Object> findSellerPaginatedBill(int page, int size, String authToken) {
         Map<String,Object> bills = new HashMap<>();
         User user = userDao.findUserByToken(authToken);
         if (null!=user){

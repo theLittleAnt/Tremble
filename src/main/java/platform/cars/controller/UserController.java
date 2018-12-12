@@ -60,12 +60,13 @@ public class UserController {
      * @return
      */
     @RequestMapping("/sellers")
-    public List<UserInfo> getSellerList(String authToken) throws ParseException {
-        List<UserInfo> sallers = null;
+    @DataCheckAnotation
+    public List<UserInfo> getSellerList(String authToken){
+        List<UserInfo> sellers = null;
         if (userService.checkToken(authToken)){
-            sallers = userService.findSellerList();
+            sellers = userService.findSellerList();
         }
-        return sallers;
+        return sellers;
     }
 
     /**
@@ -74,7 +75,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("alter-pwd")
-    public String alterPwd(User user){
+    @DataCheckAnotation
+    public String alterPwd(User user,String authToken){
         String msg = "fail";
         if(userService.updatePwd(user)){
             msg = "success";
@@ -88,6 +90,7 @@ public class UserController {
      * @return
      */
     @RequestMapping("alter-userinfo")
+    @DataCheckAnotation
     public String alterUserInfo(UserInfo userInfo,String authToken){
         String msg = "fail";
         if(userService.updateUserInfo(userInfo,authToken)){
@@ -100,8 +103,9 @@ public class UserController {
      * 列出所有申请成为卖家的用户
      * @return
      */
-    @RequestMapping("/saller-request")
-    public List<UserInfo> dataCheck(){
+    @RequestMapping("/seller-request")
+    @DataCheckAnotation
+    public List<UserInfo> dataCheck(String authToken){
         return userService.findSellerList();
     }
 
@@ -112,9 +116,10 @@ public class UserController {
      * @throws ParseException
      */
     @RequestMapping("/passed")
-    public String updateType(String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String updateType(String userToken,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken) && userService.updateType(authToken)){
+        if(userService.updateType(userToken)){
             msg = "success";
         }
         return msg;

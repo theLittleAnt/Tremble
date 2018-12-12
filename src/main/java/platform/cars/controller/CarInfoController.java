@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import platform.cars.anotation.DataCheckAnotation;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
 import platform.cars.domain.User;
@@ -51,9 +52,10 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("buy")
-    public String buyCar(Bill bill,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String buyCar(Bill bill,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken) && carInfoService.buy(bill,authToken)){
+        if(carInfoService.buy(bill,authToken)){
             msg = "success";
         }
         return msg;
@@ -66,10 +68,10 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("drop")
-    public String dropCar(String carId,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String dropCar(String carId,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken)){
-            carInfoService.dropCarInfo(carId);
+        if(carInfoService.dropCarInfo(carId)){
             msg = "success";
         }
         return msg;
@@ -80,9 +82,10 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("/save")
-    public String saveCar(CarInfo carInfo,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String saveCar(CarInfo carInfo,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken) && carInfoService.saveCarInfo(carInfo)){
+        if(carInfoService.saveCarInfo(carInfo)){
             msg = "success";
         }
         return msg;
@@ -93,9 +96,10 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("/update")
-    public String updateCar(CarInfo carInfo,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String updateCar(CarInfo carInfo,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken) && carInfoService.updateCarInfo(carInfo)){
+        if(carInfoService.updateCarInfo(carInfo)){
             msg = "success";
         }
         return msg;
@@ -110,11 +114,12 @@ public class CarInfoController {
      * @throws ParseException
      */
     @RequestMapping("/owners")
-    public Map<String,Object> paginatedCarInfoByOwner(int page,int size,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public Map<String,Object> paginatedCarInfoByOwner(int page,int size,String authToken){
         Map<String,Object> bills = null;
-        if(userService.checkToken(authToken)){
-            User user = userService.findUserByToken(authToken);
-            bills = carInfoService.findPaginatedCarInfoByOwner(page,size,user.getAccount());
+        User user = userService.findUserByToken(authToken);
+        if(null!=user) {
+            bills = carInfoService.findPaginatedCarInfoByOwner(page, size, user.getAccount());
         }
         return bills;
     }

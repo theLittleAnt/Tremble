@@ -4,6 +4,7 @@ package platform.cars.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import platform.cars.anotation.DataCheckAnotation;
 import platform.cars.domain.Bill;
 import platform.cars.service.IBillService;
 import platform.cars.service.IUserService;
@@ -30,9 +31,10 @@ public class BillController {
      * @throws ParseException
      */
     @RequestMapping("/save")
-    public String saveBillInfo(Bill bill,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String saveBillInfo(Bill bill,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken) && billService.saveBillInfo(bill)){
+        if(billService.saveBillInfo(bill)){
             msg = "success";
         }
         return msg;
@@ -44,12 +46,9 @@ public class BillController {
      * @return
      */
     @RequestMapping("/single")
-    public Bill getSingleBill(String billId,String authToken) throws ParseException {
-        Bill bill = null;
-        if(userService.checkToken(authToken)){
-            bill = billService.findOneBill(billId);
-        }
-        return bill;
+    @DataCheckAnotation
+    public Bill getSingleBill(String billId,String authToken){
+        return billService.findOneBill(billId);
     }
 
     /**
@@ -60,12 +59,9 @@ public class BillController {
      * @return
      */
     @RequestMapping("/paginated-buyer")
-    public Map<String,Object> getBuyerPaginatedBillInfo(int page,int size,String authToken) throws ParseException {
-        Map<String,Object> billMap = null;
-        if(userService.checkToken(authToken)){
-            billMap = billService.findBuyerPaginatedBill(page,size,authToken);
-        }
-        return billMap;
+    @DataCheckAnotation
+    public Map<String,Object> getBuyerPaginatedBillInfo(int page,int size,String authToken){
+        return billService.findBuyerPaginatedBill(page,size,authToken);
     }
 
     /**
@@ -75,20 +71,18 @@ public class BillController {
      * @return
      */
     @RequestMapping("/alter")
-    public String alterBill(Bill bill,String authToken) throws ParseException {
+    @DataCheckAnotation
+    public String alterBill(Bill bill,String authToken){
         String msg = "fail";
-        if(userService.checkToken(authToken) && billService.alterBillStatus(bill)){
+        if(billService.alterBillStatus(bill)){
             msg="success";
         }
         return msg;
     }
 
-    @RequestMapping("/paginated-saller")
-    Map<String,Object> findSallerPaginatedBill(int page, int size, String authToken) throws ParseException {
-        Map<String,Object> bills = null;
-        if(userService.checkToken(authToken)){
-            bills = billService.findSallerPaginatedBill(page,size,authToken);
-        }
-        return bills;
+    @RequestMapping("/paginated-seller")
+    @DataCheckAnotation
+    Map<String,Object> findSellerPaginatedBill(int page, int size, String authToken){
+        return billService.findSellerPaginatedBill(page,size,authToken);
     }
 }

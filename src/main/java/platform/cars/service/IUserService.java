@@ -11,7 +11,7 @@ public interface IUserService {
 
     User checkIn(User user);
 
-    boolean checkToken(String authToken) throws ParseException;
+    boolean checkToken(String authToken);
 
     boolean register(User user);
 

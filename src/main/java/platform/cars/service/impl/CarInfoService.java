@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
 public class CarInfoService implements ICarInfoService {
 
     @Autowired
@@ -82,20 +81,16 @@ public class CarInfoService implements ICarInfoService {
     @Transactional
     public boolean buy(Bill bill,String authToken) {
         boolean result = false;
-        try {
-            if(null!=bill && !StringUtils.isEmpty(bill.getCarId())){
-                User buyer= userDao.findUserByToken(authToken);
-                if(null!=buyer){
-                    carInfoDao.decreaseNumOfCar(bill.getCarId());
-                    bill.setBuyerAccount(buyer.getAccount());
-                    bill.setBillId(commonUtils.genAuthToken());
-                    if(billDao.saveBillInfo(bill)>0){
-                        result = true;
-                    }
+        if(null!=bill && !StringUtils.isEmpty(bill.getCarId())){
+            User buyer= userDao.findUserByToken(authToken);
+            if(null!=buyer){
+                carInfoDao.decreaseNumOfCar(bill.getCarId());
+                bill.setBuyerAccount(buyer.getAccount());
+                bill.setBillId(commonUtils.genAuthToken());
+                if(billDao.saveBillInfo(bill)>0){
+                    result = true;
                 }
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }
         return result;
     }
