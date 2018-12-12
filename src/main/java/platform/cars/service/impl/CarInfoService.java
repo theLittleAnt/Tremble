@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import platform.cars.dao.IBillDao;
 import platform.cars.dao.ICarInfoDao;
 import platform.cars.dao.IUserDao;
@@ -12,6 +13,7 @@ import platform.cars.domain.CarInfo;
 import platform.cars.domain.User;
 import platform.cars.service.ICarInfoService;
 import platform.cars.utils.CommonUtils;
+import platform.cars.utils.FileUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,9 @@ public class CarInfoService implements ICarInfoService {
 
     @Autowired
     private CommonUtils commonUtils;
+
+    @Autowired
+    private FileUtils fileUtils;
     /**
      * 根据传入的起始位置和大小返回车辆信息
      * @param page
@@ -117,10 +122,23 @@ public class CarInfoService implements ICarInfoService {
      */
     @Override
     @Transactional
-    public boolean saveCarInfo(CarInfo carInfo) {
+    public boolean saveCarInfo(MultipartFile file, CarInfo carInfo) {
         boolean result = false;
         if(null!=carInfo){
-            carInfo.setCarId(commonUtils.genAuthToken());
+            String carId = commonUtils.genAuthToken();
+            String fileName = "touxiang.jpg";//设置默认图片
+            if(null!=file){
+                String filePath = fileUtils.picFilePath();
+                fileName = fileUtils.picFileName(file,carId);
+                try {
+                    fileUtils.uploadFile(file.getBytes(),filePath,fileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            carInfo.setCarId(carId);
+            carInfo.setCarMainPic("/cars-sale/static/pictures/"+fileName);
+
             result = carInfoDao.saveCarInfo(carInfo)>0?true:false;
         }
         return result;
@@ -133,9 +151,18 @@ public class CarInfoService implements ICarInfoService {
      */
     @Override
     @Transactional
-    public boolean updateCarInfo(CarInfo carInfo) {
+    public boolean updateCarInfo(MultipartFile file,CarInfo carInfo) {
         boolean result = false;
-        if(null!=carInfo){
+        if(null!=carInfo && !StringUtils.isEmpty(carInfo.getCarId())){
+            if(null!=file){
+                String filePath = fileUtils.picFilePath();
+                String fileName = fileUtils.picFileName(file,carInfo.getCarId());
+                try {
+                    fileUtils.uploadFile(file.getBytes(),filePath,fileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             result = carInfoDao.updateCarInfo(carInfo)>0?true:false;
         }
         return result;

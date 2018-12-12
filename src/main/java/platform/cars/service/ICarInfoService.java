@@ -1,6 +1,7 @@
 package platform.cars.service;
 
 
+import org.springframework.web.multipart.MultipartFile;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
 
@@ -18,9 +19,9 @@ public interface ICarInfoService {
 
     boolean dropCarInfo(String carId);
 
-    boolean saveCarInfo(CarInfo carInfo);
+    boolean saveCarInfo(MultipartFile file,CarInfo carInfo);
 
-    boolean updateCarInfo(CarInfo carInfo);
+    boolean updateCarInfo(MultipartFile file,CarInfo carInfo);
 
     Map<String,Object> findPaginatedCarInfoByOwner(int page,int size,String carOwner);
 }

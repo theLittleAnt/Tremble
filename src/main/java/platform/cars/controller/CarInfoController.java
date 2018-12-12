@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import platform.cars.anotation.DataCheckAnotation;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
@@ -69,7 +70,7 @@ public class CarInfoController {
      */
     @RequestMapping("drop")
     @DataCheckAnotation
-    public String dropCar(String carId,String authToken){
+    public String dropCar(String carId, String authToken){
         String msg = "fail";
         if(carInfoService.dropCarInfo(carId)){
             msg = "success";
@@ -79,13 +80,16 @@ public class CarInfoController {
 
     /**
      * 保存车辆信息
+     * @param file
+     * @param carInfo
+     * @param authToken
      * @return
      */
     @RequestMapping("/save")
     @DataCheckAnotation
-    public String saveCar(CarInfo carInfo,String authToken){
+    public String saveCar(MultipartFile file,CarInfo carInfo,String authToken){
         String msg = "fail";
-        if(carInfoService.saveCarInfo(carInfo)){
+        if(carInfoService.saveCarInfo(file,carInfo)){
             msg = "success";
         }
         return msg;
@@ -97,9 +101,9 @@ public class CarInfoController {
      */
     @RequestMapping("/update")
     @DataCheckAnotation
-    public String updateCar(CarInfo carInfo,String authToken){
+    public String updateCar(MultipartFile file,CarInfo carInfo,String authToken){
         String msg = "fail";
-        if(carInfoService.updateCarInfo(carInfo)){
+        if(carInfoService.updateCarInfo(file,carInfo)){
             msg = "success";
         }
         return msg;
