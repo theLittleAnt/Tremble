@@ -45,7 +45,7 @@
 
     <update id="updateType" parameterType="String">
         UPDATE USERS SET type=1
-        WHERE auth_token=#{authToken};
+        WHERE account=#{account};
     </update>
 
     <update id="updateToken" parameterType="platform.cars.domain.User">
@@ -86,7 +86,11 @@
     <select id="findSellerList" resultMap="userInfoResult" >
         SELECT USER_INFO.account,USER_INFO.name,USER_INFO.id_card,USER_INFO.phone,
                USER_INFO.email,USER_INFO.age,USER_INFO.address,USER_INFO.qualifications
-        from USERS,USER_INFO WHERE USERS.type='1' and USERS.account = USER_INFO.account;
+        from USERS,USER_INFO WHERE USERS.type=1 and USERS.account = USER_INFO.account;
+    </select>
+
+    <select id="findSellerRequestList" resultMap="userInfoResult" >
+        SELECT * FROM USER_INFO WHERE qualifications is not null;
     </select>
 
 </mapper>

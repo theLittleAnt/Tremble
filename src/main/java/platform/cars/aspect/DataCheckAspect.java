@@ -50,6 +50,7 @@ public class DataCheckAspect {
                 obj = map;
             }else if(obj instanceof List){
                 obj = new ArrayList<>();
+                ((List) obj).add("token error");
             }else if(obj instanceof BaseObject){
                 obj = null;
             }

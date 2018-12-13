@@ -1,6 +1,7 @@
 package platform.cars.service;
 
 
+import org.springframework.web.multipart.MultipartFile;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 
@@ -17,7 +18,7 @@ public interface IUserService {
 
     boolean updatePwd(User user);
 
-    boolean updateType(String authToken);
+    boolean updateType(String account);
 
     boolean updateToken(User user);
 
@@ -28,4 +29,9 @@ public interface IUserService {
     User findUserByToken(String authToken);
 
     List<UserInfo> findSellerList();
+
+    List<UserInfo> findSellerRequestList();
+
+    boolean uploadQualification(MultipartFile file,String authToken);
+
 }

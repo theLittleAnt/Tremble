@@ -4,7 +4,6 @@ package platform.cars.dao;
 import platform.cars.domain.CarInfo;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ICarInfoDao {
 
@@ -24,5 +23,5 @@ public interface ICarInfoDao {
 
     List<CarInfo> findAllCarInfoByOwner(String carOwner);
 
-    Map<String,Object> findPaginatedCarInfoByOwner(int start, int size, String carOwner);
+    List<CarInfo> findPaginatedCarInfoByOwner(int start, int size, String carOwner);
 }

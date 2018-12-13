@@ -37,8 +37,8 @@ public class BillService implements IBillService {
     @Transactional
     public boolean saveBillInfo(Bill bill) {
         boolean result = false;
-        if(null!=bill){
-            bill.setBuyerAccount(commonUtils.genAuthToken());
+        if(!StringUtils.isEmpty(bill.getBuyerAccount()) && !StringUtils.isEmpty(bill.getCarId())){
+            bill.setBillId(commonUtils.genAuthToken());
             result = billDao.saveBillInfo(bill)>0?true:false;
         }
         return result;
@@ -65,15 +65,15 @@ public class BillService implements IBillService {
      * @return
      */
     @Override
-    public Map<String,Object> findBuyerPaginatedBill(int page, int size , String authToken) {
+    public Map<String,Object> findBuyerPaginatedBill(Integer page,Integer size,String authToken) {
         Map<String,Object> bills = new HashMap<>();
         User user = userDao.findUserByToken(authToken);
         if (null!=user){
             bills.put("totalSize",billDao.findAllBillByBuyerAccount(user.getAccount()).size());
+            page=commonUtils.checkInteger(page,1);
+            size=commonUtils.checkInteger(size,10);
+            bills.put("billsData",billDao.findBuyerPaginatedBill((page-1)*size,size,user.getAccount()));
         }
-        page = page<=0?1:page;
-        size = size<=0?10:size;
-        bills.put("billsData",billDao.findBuyerPaginatedBill((page-1)*size,size,user.getAccount()));
         return bills;
     }
 
@@ -86,7 +86,7 @@ public class BillService implements IBillService {
     @Transactional
     public boolean alterBillStatus(Bill bill) {
         boolean result = false;
-        if(null!=bill){
+        if(!StringUtils.isEmpty(bill.getBuyerAccount())){
             result = billDao.alterBillStatus(bill)>0?true:false;
         }
         return result;
@@ -109,15 +109,15 @@ public class BillService implements IBillService {
      * @return
      */
     @Override
-    public Map<String, Object> findSellerPaginatedBill(int page, int size, String authToken) {
+    public Map<String, Object> findSellerPaginatedBill(Integer page, Integer size, String authToken) {
         Map<String,Object> bills = new HashMap<>();
         User user = userDao.findUserByToken(authToken);
         if (null!=user){
             bills.put("totalSize",billDao.findAllBillBySallerAccount(user.getAccount()).size());
+            page=commonUtils.checkInteger(page,1);
+            size=commonUtils.checkInteger(size,10);
+            bills.put("billsData",billDao.findSallerPaginatedBill((page-1)*size,size,user.getAccount()));
         }
-        page = page<=0?1:page;
-        size = size<=0?10:size;
-        bills.put("billsData",billDao.findSallerPaginatedBill((page-1)*size,size,user.getAccount()));
         return bills;
     }
 }

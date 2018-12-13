@@ -3,6 +3,7 @@ package platform.cars.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import platform.cars.anotation.DataCheckAnotation;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
@@ -62,11 +63,7 @@ public class UserController {
     @RequestMapping("/sellers")
     @DataCheckAnotation
     public List<UserInfo> getSellerList(String authToken){
-        List<UserInfo> sellers = null;
-        if (userService.checkToken(authToken)){
-            sellers = userService.findSellerList();
-        }
-        return sellers;
+        return userService.findSellerList();
     }
 
     /**
@@ -100,13 +97,29 @@ public class UserController {
     }
 
     /**
+     * 上传申请的资质信息
+     * @param file
+     * @param authToken
+     * @return
+     */
+    @RequestMapping("upload-qualification")
+    @DataCheckAnotation
+    public String uploadQualification(MultipartFile file,String authToken){
+        String msg = "fail";
+        if(userService.uploadQualification(file,authToken)){
+            msg = "success";
+        }
+        return msg;
+    }
+
+    /**
      * 列出所有申请成为卖家的用户
      * @return
      */
     @RequestMapping("/seller-request")
     @DataCheckAnotation
     public List<UserInfo> dataCheck(String authToken){
-        return userService.findSellerList();
+        return userService.findSellerRequestList();
     }
 
     /**
@@ -117,9 +130,9 @@ public class UserController {
      */
     @RequestMapping("/passed")
     @DataCheckAnotation
-    public String updateType(String userToken,String authToken){
+    public String updateType(String account,String authToken){
         String msg = "fail";
-        if(userService.updateType(userToken)){
+        if(userService.updateType(account)){
             msg = "success";
         }
         return msg;

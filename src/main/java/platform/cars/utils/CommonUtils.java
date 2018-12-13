@@ -43,4 +43,13 @@ public class CommonUtils {
         return dateStr;
     }
 
+    public Integer checkInteger(Integer data,int init){
+        if(null==data){
+            data=init;
+        }else{
+            data=data<0?init:data;
+        }
+        return data;
+    }
+
 }

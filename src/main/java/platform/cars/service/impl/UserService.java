@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import platform.cars.dao.IUserDao;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
 import platform.cars.utils.CommonUtils;
+import platform.cars.utils.FileUtils;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserDao userDao;
+
+    @Autowired
+    private FileUtils fileUtils;
 
     @Autowired
     private CommonUtils commonUtils;
@@ -35,18 +39,15 @@ public class UserService implements IUserService {
      */
     @Override
     public User checkIn(User user) {
-        User checkedUser = null;
-        if(null!=user) {
-            checkedUser = userDao.checkIn(user);
-            if(null!=checkedUser){
-                String token = checkedUser.getAuthToken();
-                if(!checkToken(token)){
-                    token = commonUtils.genAuthToken();
-                    user.setAuthToken(token);
-                    user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-                    userDao.updateToken(user);
-                    checkedUser.setAuthToken(token);
-                }
+        User checkedUser = userDao.checkIn(user);
+        if(null!=checkedUser){
+            String token = checkedUser.getAuthToken();
+            if(!checkToken(token)){
+                token = commonUtils.genAuthToken();
+                user.setAuthToken(token);
+                user.setTokenGenTime(commonUtils.dateToStr(new Date()));
+                userDao.updateToken(user);
+                checkedUser.setAuthToken(token);
             }
         }
         return checkedUser;
@@ -87,13 +88,9 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean register(User user) {
-        boolean result = false;
-        if(null!=user){
-            user.setAuthToken(commonUtils.genAuthToken());
-            user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-            result = userDao.saveUser(user)>0?true:false;
-        }
-        return result;
+        user.setAuthToken(commonUtils.genAuthToken());
+        user.setTokenGenTime(commonUtils.dateToStr(new Date()));
+        return userDao.saveUser(user)>0?true:false;
     }
 
     /**
@@ -105,7 +102,7 @@ public class UserService implements IUserService {
     @Transactional
     public boolean updatePwd(User user) {
         boolean result = false;
-        if(null!=user&& !StringUtils.isEmpty(user.getPwd())){
+        if(!StringUtils.isEmpty(user.getPwd())){
             if(userDao.updatePwd(user)>0){
                 result=true;
             }
@@ -115,13 +112,13 @@ public class UserService implements IUserService {
 
     /**
      * 修改用户的类型
-     * @param authToken
+     * @param account
      * @return
      */
     @Override
     @Transactional
-    public boolean updateType(String authToken) {
-        return userDao.updateType(authToken)>0?true:false;
+    public boolean updateType(String account) {
+        return userDao.updateType(account)>0?true:false;
     }
 
     /**
@@ -143,14 +140,8 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean updateUserInfo(UserInfo userInfo,String authToken) {
-        boolean result = false;
-        if(null!=userInfo){
-            userInfo.setAccount(userDao.findUserByToken(authToken).getAccount());
-            if(userDao.updateUserInfo(userInfo)>0){
-                result=true;
-            }
-        }
-        return result;
+        userInfo.setAccount(userDao.findUserByToken(authToken).getAccount());
+        return userDao.updateUserInfo(userInfo)>0?true:false;
     }
 
     /**
@@ -180,5 +171,47 @@ public class UserService implements IUserService {
     @Override
     public List<UserInfo> findSellerList() {
         return userDao.findSellerList();
+    }
+
+    /**
+     * 获取申请资格不是空的用户
+     * @return
+     */
+    @Override
+    public List<UserInfo> findSellerRequestList() {
+        return userDao.findSellerRequestList();
+    }
+
+    /**
+     * 上传卖家资质
+     * @param file
+     * @param authToken
+     * @return
+     */
+    @Override
+    @Transactional
+    public boolean uploadQualification(MultipartFile file,String authToken) {
+        boolean result = false;
+        if(null!=file){
+            User user = userDao.findUserByToken(authToken);
+            if(null!=user){
+                String account = user.getAccount();
+                String filePath = fileUtils.picFilePath();
+                String fileName = fileUtils.picFileName(file,account);
+                try {
+                    fileUtils.uploadFile(file.getBytes(),filePath,fileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                UserInfo userInfo = new UserInfo();
+                userInfo.setAccount(account);
+                userInfo.setQualifications("/cars-sale/static/pictures/"+fileName);
+                if(userDao.updateUserInfo(userInfo)>0){
+                    result = true;
+                }
+            }
+        }
+
+        return result;
     }
 }

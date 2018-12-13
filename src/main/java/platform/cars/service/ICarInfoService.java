@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ICarInfoService {
-    Map<String,Object> listCarInfoByPage(int page, int size);
+    Map<String,Object> listCarInfoByPage(Integer page, Integer size);
 
     CarInfo getCarInfoByCarId(String carId);
 
@@ -19,9 +19,9 @@ public interface ICarInfoService {
 
     boolean dropCarInfo(String carId);
 
-    boolean saveCarInfo(MultipartFile file,CarInfo carInfo);
+    boolean saveCarInfo(MultipartFile file,CarInfo carInfo,String authToken);
 
     boolean updateCarInfo(MultipartFile file,CarInfo carInfo);
 
-    Map<String,Object> findPaginatedCarInfoByOwner(int page,int size,String carOwner);
+    Map<String,Object> findPaginatedCarInfoByOwner(Integer page,Integer size,String carOwner);
 }

@@ -1,7 +1,6 @@
 package platform.cars.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +12,6 @@ import platform.cars.service.ICarInfoService;
 import platform.cars.service.IUserService;
 
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -32,7 +30,7 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("/paginated")
-    public Map<String,Object> paginatedCarInfo(int page, int size){
+    public Map<String,Object> paginatedCarInfo( Integer page, Integer size){
         return carInfoService.listCarInfoByPage(page,size);
     }
 
@@ -89,7 +87,7 @@ public class CarInfoController {
     @DataCheckAnotation
     public String saveCar(MultipartFile file,CarInfo carInfo,String authToken){
         String msg = "fail";
-        if(carInfoService.saveCarInfo(file,carInfo)){
+        if(carInfoService.saveCarInfo(file,carInfo,authToken)){
             msg = "success";
         }
         return msg;
@@ -119,7 +117,7 @@ public class CarInfoController {
      */
     @RequestMapping("/owners")
     @DataCheckAnotation
-    public Map<String,Object> paginatedCarInfoByOwner(int page,int size,String authToken){
+    public Map<String,Object> paginatedCarInfoByOwner(Integer page, Integer size, String authToken){
         Map<String,Object> bills = null;
         User user = userService.findUserByToken(authToken);
         if(null!=user) {

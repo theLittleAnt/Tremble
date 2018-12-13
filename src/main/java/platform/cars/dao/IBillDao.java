@@ -15,11 +15,11 @@ public interface IBillDao {
 
     Bill findOneBill(String billId);
 
-    Map<String,Object> findBuyerPaginatedBill(int start, int size, String buyerAccount);
+    List<Bill> findBuyerPaginatedBill(int start, int size, String buyerAccount);
 
     List<Bill> findAllBillByBuyerAccount(String buyerAccount);
 
-    Map<String,Object> findSallerPaginatedBill(int start, int size, String carOwner);
+    List<Bill> findSallerPaginatedBill(int start, int size, String carOwner);
 
     List<Bill> findAllBillBySallerAccount(String carOwner);
 }

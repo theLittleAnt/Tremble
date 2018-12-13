@@ -43,11 +43,11 @@ public class CarInfoService implements ICarInfoService {
      * @return
      */
     @Override
-    public Map<String,Object> listCarInfoByPage(int page, int size) {
+    public Map<String,Object> listCarInfoByPage(Integer page, Integer size) {
         Map<String,Object> cars = new HashMap<>();
         cars.put("totalSize",carInfoDao.findAllCarInfo().size());
-        page = page<=0?1:page;
-        size = size<=0?10:size;
+        page=commonUtils.checkInteger(page,1);
+        size=commonUtils.checkInteger(size,10);
         cars.put("carsData",carInfoDao.listCarInfoByPage((page-1)*size,size));
         return cars;
     }
@@ -86,7 +86,7 @@ public class CarInfoService implements ICarInfoService {
     @Transactional
     public boolean buy(Bill bill,String authToken) {
         boolean result = false;
-        if(null!=bill && !StringUtils.isEmpty(bill.getCarId())){
+        if(!StringUtils.isEmpty(bill.getCarId())){
             User buyer= userDao.findUserByToken(authToken);
             if(null!=buyer){
                 carInfoDao.decreaseNumOfCar(bill.getCarId());
@@ -134,9 +134,9 @@ public class CarInfoService implements ICarInfoService {
      */
     @Override
     @Transactional
-    public boolean saveCarInfo(MultipartFile file, CarInfo carInfo) {
+    public boolean saveCarInfo(MultipartFile file, CarInfo carInfo,String authToken) {
         boolean result = false;
-        if(null!=carInfo){
+        if(!StringUtils.isEmpty(carInfo.getCarName())){
             String carId = commonUtils.genAuthToken();
             String fileName = "touxiang.jpg";//设置默认图片
             if(null!=file){
@@ -148,10 +148,13 @@ public class CarInfoService implements ICarInfoService {
                     e.printStackTrace();
                 }
             }
-            carInfo.setCarId(carId);
-            carInfo.setCarMainPic("/cars-sale/static/pictures/"+fileName);
-
-            result = carInfoDao.saveCarInfo(carInfo)>0?true:false;
+            User user = userDao.findUserByToken(authToken);
+            if(null!=user){
+                carInfo.setCarOwner(user.getAccount());
+                carInfo.setCarId(carId);
+                carInfo.setCarMainPic("/cars-sale/static/pictures/"+fileName);
+                result = carInfoDao.saveCarInfo(carInfo)>0?true:false;
+            }
         }
         return result;
     }
@@ -165,7 +168,7 @@ public class CarInfoService implements ICarInfoService {
     @Transactional
     public boolean updateCarInfo(MultipartFile file,CarInfo carInfo) {
         boolean result = false;
-        if(null!=carInfo && !StringUtils.isEmpty(carInfo.getCarId())){
+        if(!StringUtils.isEmpty(carInfo.getCarId())){
             if(null!=file){
                 String filePath = fileUtils.picFilePath();
                 String fileName = fileUtils.picFileName(file,carInfo.getCarId());
@@ -186,11 +189,11 @@ public class CarInfoService implements ICarInfoService {
      * @return
      */
     @Override
-    public Map<String,Object> findPaginatedCarInfoByOwner(int page,int size,String carOwner) {
+    public Map<String,Object> findPaginatedCarInfoByOwner(Integer page,Integer size,String carOwner) {
         Map<String,Object> cars = null;
         if(!StringUtils.isEmpty(carOwner)){
-            page = page<=0?1:page;
-            size = size<=0?10:size;
+            page=commonUtils.checkInteger(page,1);
+            size=commonUtils.checkInteger(size,10);
             cars.put("carsData",carInfoDao.findPaginatedCarInfoByOwner(page,size,carOwner));
             cars.put("totalSize",carInfoDao.findAllCarInfoByOwner(carOwner).size());
         }

@@ -16,7 +16,7 @@ public interface IUserDao {
 
     int updatePwd(User user);
 
-    int updateType(String authToken);
+    int updateType(String account);
 
     int updateToken(User user);
 
@@ -29,4 +29,6 @@ public interface IUserDao {
     UserInfo findUserInfoByAccount(String account);
 
     List<UserInfo> findSellerList();
+
+    List<UserInfo> findSellerRequestList();
 }

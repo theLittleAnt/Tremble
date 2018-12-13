@@ -60,7 +60,7 @@ public class BillController {
      */
     @RequestMapping("/paginated-buyer")
     @DataCheckAnotation
-    public Map<String,Object> getBuyerPaginatedBillInfo(int page,int size,String authToken){
+    public Map<String,Object> getBuyerPaginatedBillInfo(Integer page, Integer size,String authToken){
         return billService.findBuyerPaginatedBill(page,size,authToken);
     }
 
@@ -82,7 +82,7 @@ public class BillController {
 
     @RequestMapping("/paginated-seller")
     @DataCheckAnotation
-    Map<String,Object> findSellerPaginatedBill(int page, int size, String authToken){
+    Map<String,Object> findSellerPaginatedBill(Integer page, Integer size, String authToken){
         return billService.findSellerPaginatedBill(page,size,authToken);
     }
 }
