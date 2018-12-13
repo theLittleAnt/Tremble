@@ -102,6 +102,7 @@ public class CarInfoService implements ICarInfoService {
 
     /**
      * 删除车辆信息
+     * 包括删除车辆图片
      * @param carId
      * @return
      */
@@ -110,7 +111,18 @@ public class CarInfoService implements ICarInfoService {
     public boolean dropCarInfo(String carId) {
         boolean result = false;
         if(!StringUtils.isEmpty(carId)){
-            result = carInfoDao.dropCarInfo(carId)>0?true:false;
+            CarInfo carInfo = carInfoDao.findCarInfoByCardId(carId);
+            if(null!=carInfo){
+                String picPath = carInfo.getCarMainPic();
+                if(!StringUtils.isEmpty(picPath)){
+                    String fileName = carInfo.getCarMainPic();
+                    fileName=fileName.substring(fileName.lastIndexOf("/"));
+                    fileUtils.dropFile(fileUtils.picFilePath()+fileName);
+                }
+                result = carInfoDao.dropCarInfo(carId)>0?true:false;
+            }else{
+                result = true;
+            }
         }
         return result;
     }

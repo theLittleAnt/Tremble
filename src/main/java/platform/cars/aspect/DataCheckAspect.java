@@ -43,10 +43,10 @@ public class DataCheckAspect {
 
         if(StringUtils.isEmpty(authToken) || !userService.checkToken(authToken)){
             if(obj instanceof String){
-                obj = "fail";
+                obj = "token error";
             }else if(obj instanceof Map){
                 Map<String,Object> map = new HashMap<>();
-                map.put("msg","fail");
+                map.put("msg","token error");
                 obj = map;
             }else if(obj instanceof List){
                 obj = new ArrayList<>();

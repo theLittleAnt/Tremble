@@ -6,12 +6,12 @@
     <insert id="saveCarInfo" parameterType="platform.cars.domain.CarInfo">
         INSERT INTO car_info(car_id,car_name,car_price,car_main_pic,
                     car_description,car_owner,car_trade_place,car_num)
-               VALUES(carId,carName,carPrice,carMainPic,
-                    carDescription,carOwner,carTradePlace,carNum);
+               VALUES(#{carId},#{carName},#{carPrice},#{carMainPic},
+                    #{carDescription},#{carOwner},#{carTradePlace},#{carNum});
     </insert>
 
     <delete id="dropCarInfo" parameterType="String">
-        DELETE FROM car_info WHERE car_id = #(carId);
+        DELETE FROM car_info WHERE car_id = #{carId};
     </delete>
 
     <update id="decreaseNumOfCar" parameterType="String">

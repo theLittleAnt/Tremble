@@ -1,6 +1,7 @@
 package platform.cars.utils;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +47,13 @@ public class FileUtils {
 
     public boolean dropFile(String filePath){
         boolean result = false;
-
+        if(!StringUtils.isEmpty(filePath)){
+            File file = new File(filePath);
+            if(file.exists()){
+                file.delete();
+            }
+            result = true;
+        }
         return result;
     }
 }
