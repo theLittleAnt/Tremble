@@ -32,7 +32,7 @@
 
     <insert id="saveUser"  parameterType="platform.cars.domain.User">
         INSERT INTO USERS(ACCOUNT,PWD,TYPE,AUTH_TOKEN,TOKEN_GEN_TIME)
-        VALUES(#{account},#{pwd},#{type},#{authToken},#{tokenGenTime});
+        VALUES(#{account},#{pwd},0,#{authToken},#{tokenGenTime});
     </insert>
 
     <update id="updatePwd" parameterType="platform.cars.domain.User">

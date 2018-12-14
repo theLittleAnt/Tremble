@@ -31,9 +31,12 @@ function inputBlur(obj){
         label.style.left='0';
     }
 }
-function showToolTip(selector,action,time) {
+function showToolTip(selector,action,time,title) {
     var tip = $(selector);
     tip.tooltip("destroy");
+    if(title!=null){
+        tip.tooltip({title:title});
+    }
     tip.tooltip(action);
     setTimeout(function () {
         tip.tooltip("destroy");

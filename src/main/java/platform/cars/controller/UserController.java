@@ -138,6 +138,17 @@ public class UserController {
         return msg;
     }
 
+    /**
+     * 根据authtoken获取用户信息
+     * @param authToken
+     * @return
+     */
+    @RequestMapping("/info")
+    @DataCheckAnotation
+    public UserInfo getUserInfoByAuthToken(String authToken){
+        return userService.findUserInfoByAuthToken(authToken);
+    }
+
     @RequestMapping("/test")
     @DataCheckAnotation
     public Map<String,Object> test(String authToken){

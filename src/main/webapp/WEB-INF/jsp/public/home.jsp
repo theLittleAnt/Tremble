@@ -17,37 +17,32 @@
     <jsp:include page="../component/header.jsp"/>
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
                 <jsp:include page="../component/car_item.jsp"/>
             </div>
         </div>
 
-        <div>
-            <jsp:include page="../component/car_item.jsp"/>
-        </div>
         <jsp:include page="../component/footer.jsp"/>
     </div>
 

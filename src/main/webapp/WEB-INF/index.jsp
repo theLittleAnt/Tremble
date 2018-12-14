@@ -40,9 +40,55 @@
                         </div>
                         <div class="text-center">
                             <input type="button" value="登陆" class="btn-default loginBtn" onclick="login()">
-                            <input type="button" value="注册" class="btn-default registerBtn" onclick="register()">
+                            <input type="button" value="注册" class="btn-default registerBtn"
+                                   data-toggle="modal" data-target=".register-modal">
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="modal fade register-modal" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">×
+                            </button>
+                            <span class="modal-title">
+                                用户注册
+                            </span>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table  text-center">
+                                <tr>
+                                    <td>账号：</td>
+                                    <td>
+                                        <input type="text" class="reg-account" oninput="checkValue('.reg-account','word')"
+                                               maxlength="32" data-toggle="tooltip" data-placement="auto top" title="账号不能为空">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>密码：</td>
+                                    <td>
+                                        <input type="password" class="reg-pwd" oninput="checkValue('.reg-pwd','word')"
+                                               maxlength="32" data-toggle="tooltip" data-placement="auto top" title="密码不能为空">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>再次输入：</td>
+                                    <td>
+                                        <input type="password" class="reg-pwd-again" oninput="checkValue('.reg-pwd-again','word')"
+                                               maxlength="32" data-toggle="tooltip" data-placement="auto top">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="register()">注册</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

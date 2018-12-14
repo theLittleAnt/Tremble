@@ -24,7 +24,7 @@ public interface IUserService {
 
     boolean updateUserInfo(UserInfo userInfo,String authToken);
 
-    UserInfo findUserInfoByAccount(String account);
+    UserInfo findUserInfoByAuthToken(String authToken);
 
     User findUserByToken(String authToken);
 

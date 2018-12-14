@@ -2,6 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <header>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1>我的第一个 Bootstrap 页面</h1>
+        <p>重置浏览器窗口大小查看效果！</p>
+    </div>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -21,30 +25,21 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <c:if test="${not empty userInfo}">
-                        <li style="display: none;">
-                            <a href="#">
-                                <span class="lgd_account" value="${userInfo.account}">${userInfo.account}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-user" value="${userInfo.name}">&nbsp;${userInfo.name}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-log-out" onclick="logout()">&nbsp;退出</span>
-                            </a>
-                        </li>
-                    </c:if>
-                    <c:if test="${empty userInfo}">
-                        <li>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-log-in" onclick="toLogin()">&nbsp;登陆</span>
-                            </a>
-                        </li>
-                    </c:if>
+                    <li class="checked-in">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-user checked-user"></span>
+                        </a>
+                    </li>
+                    <li class="checked-in">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-log-out" onclick="logout()">&nbsp;退出</span>
+                        </a>
+                    </li>
+                    <li class="not-checked-in">
+                        <a href="#">
+                            <span class="glyphicon glyphicon-log-in" onclick="toLogin()">&nbsp;登陆</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

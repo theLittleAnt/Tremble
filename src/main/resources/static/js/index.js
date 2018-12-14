@@ -2,11 +2,11 @@ function login() {
     var account = document.querySelector(".account").value;
     var pwd = document.querySelector(".pwd").value;
     if(account == ""){
-        showToolTip(".account","show",1000);
+        showToolTip(".account","show",1000,null);
         return;
     }
     if(pwd==""){
-        showToolTip(".pwd","show",1000);
+        showToolTip(".pwd","show",1000,null);
         return;
     }
     var user = new Object();
@@ -18,6 +18,8 @@ function login() {
         data:user,
         success:function (data) {
             if(data.msg=="success"){
+                sessionStorage.setItem("authToken",data.user.authToken);
+                sessionStorage.setItem("type",data.user.type);
                 window.location.href="/cars-sale/home";
             }else{
                 alert("登陆失败");
@@ -32,5 +34,24 @@ function login() {
 }
 
 function register() {
-    
+    var account = document.querySelector(".reg-account");
+    var pwd = document.querySelector(".reg-pwd");
+    var pwd_a = document.querySelector(".reg-pwd-again");
+    if(account.value==""){
+        showToolTip(".reg-account","show",1000,null);
+        return;
+    }
+    if(pwd.value==""){
+        showToolTip(".reg-pwd","show",1000,null);
+        return;
+    }
+    if(pwd_a.value==""){
+        showToolTip(".reg-pwd-again","show",1000,"再次输入不能为空");
+        return;
+    }
+    if(pwd_a.value!=pwd.value){
+        showToolTip(".reg-pwd-again","show",1000,"两次输入不一致");
+        return;
+    }
+
 }

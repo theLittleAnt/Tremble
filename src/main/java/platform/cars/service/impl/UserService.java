@@ -145,13 +145,18 @@ public class UserService implements IUserService {
     }
 
     /**
-     * 根据用户账号获取用户信息
-     * @param account
+     * 根据authToken获取用户信息
+     * @param authToken
      * @return 用户信息对象
      */
     @Override
-    public UserInfo findUserInfoByAccount(String account){
-        return userDao.findUserInfoByAccount(account);
+    public UserInfo findUserInfoByAuthToken(String authToken){
+        User user = userDao.findUserByToken(authToken);
+        UserInfo userInfo = null;
+        if(null!=user){
+            userInfo = userDao.findUserInfoByAccount(user.getAccount());
+        }
+        return userInfo;
     }
 
     /**
