@@ -61,7 +61,14 @@ function register() {
         url:"/cars-sale/user/register",
         data:user,
         success:function (data) {
-            alert("注册成功");
+            if(data=="success"){
+                alert("注册成功");
+            }else if(data=="fail"){
+                alert("注册失败");
+            }else if(data.msg=="error"){
+                alert("账号已存在");
+            }
+
         },
         error:function (e){
             alert("账号已存在");
