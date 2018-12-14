@@ -15,6 +15,7 @@ import platform.cars.service.ICarInfoService;
 import platform.cars.utils.CommonUtils;
 import platform.cars.utils.FileUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,19 +135,19 @@ public class CarInfoService implements ICarInfoService {
      */
     @Override
     @Transactional
-    public boolean saveCarInfo(MultipartFile file, CarInfo carInfo,String authToken) {
+    public boolean saveCarInfo(MultipartFile file, CarInfo carInfo,String authToken) throws Exception {
         boolean result = false;
         if(!StringUtils.isEmpty(carInfo.getCarName())){
             String carId = commonUtils.genAuthToken();
-            String fileName = "touxiang.jpg";//设置默认图片
+            String fileName = null;
+            String defaultName = "touxiang.jpg";//设置默认图片
             if(null!=file){
                 String filePath = fileUtils.picFilePath();
                 fileName = fileUtils.picFileName(file,carId);
-                try {
-                    fileUtils.uploadFile(file.getBytes(),filePath,fileName);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if(fileName==null){
+                    fileName=defaultName;
                 }
+                fileUtils.uploadFile(file.getBytes(),filePath,fileName);
             }
             User user = userDao.findUserByToken(authToken);
             if(null!=user){
@@ -166,16 +167,15 @@ public class CarInfoService implements ICarInfoService {
      */
     @Override
     @Transactional
-    public boolean updateCarInfo(MultipartFile file,CarInfo carInfo) {
+    public boolean updateCarInfo(MultipartFile file,CarInfo carInfo) throws Exception {
         boolean result = false;
         if(!StringUtils.isEmpty(carInfo.getCarId())){
             if(null!=file){
                 String filePath = fileUtils.picFilePath();
                 String fileName = fileUtils.picFileName(file,carInfo.getCarId());
-                try {
+                if(fileName!=null){
                     fileUtils.uploadFile(file.getBytes(),filePath,fileName);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    carInfo.setCarMainPic("/cars-sale/static/pictures/"+fileName);
                 }
             }
             result = carInfoDao.updateCarInfo(carInfo)>0?true:false;

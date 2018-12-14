@@ -158,6 +158,15 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping("/extest")
+    public Map<String,Object> test() throws Exception{
+        Map<String,Object> map = new HashMap<>();
+
+        int a = 5/0;
+        map.put("msg","success");
+        return map;
+    }
+
 //    @RequestMapping("/login")
 //    public String login(HttpServletRequest request, HttpServletResponse response) {
 //        boolean tag = userService.findUserById(request.getParameter("id"));

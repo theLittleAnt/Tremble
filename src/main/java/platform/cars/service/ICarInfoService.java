@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +20,9 @@ public interface ICarInfoService {
 
     boolean dropCarInfo(String carId);
 
-    boolean saveCarInfo(MultipartFile file,CarInfo carInfo,String authToken);
+    boolean saveCarInfo(MultipartFile file,CarInfo carInfo,String authToken) throws Exception;
 
-    boolean updateCarInfo(MultipartFile file,CarInfo carInfo);
+    boolean updateCarInfo(MultipartFile file,CarInfo carInfo) throws Exception;
 
     Map<String,Object> findPaginatedCarInfoByOwner(Integer page,Integer size,String carOwner);
 }

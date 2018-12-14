@@ -53,5 +53,19 @@ function register() {
         showToolTip(".reg-pwd-again","show",1000,"两次输入不一致");
         return;
     }
+    var user = new Object();
+    user.account = account.value;
+    user.pwd = pwd.value;
+    $.ajax({
+        type:"post",
+        url:"/cars-sale/user/register",
+        data:user,
+        success:function (data) {
+            alert("注册成功");
+        },
+        error:function (e){
+            alert("账号已存在");
+        }
+    })
 
 }

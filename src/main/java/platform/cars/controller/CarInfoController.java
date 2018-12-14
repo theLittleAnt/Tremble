@@ -85,7 +85,7 @@ public class CarInfoController {
      */
     @RequestMapping("/save")
     @DataCheckAnotation
-    public String saveCar(MultipartFile file,CarInfo carInfo,String authToken){
+    public String saveCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
         String msg = "fail";
         if(carInfoService.saveCarInfo(file,carInfo,authToken)){
             msg = "success";
@@ -99,7 +99,7 @@ public class CarInfoController {
      */
     @RequestMapping("/update")
     @DataCheckAnotation
-    public String updateCar(MultipartFile file,CarInfo carInfo,String authToken){
+    public String updateCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
         String msg = "fail";
         if(carInfoService.updateCarInfo(file,carInfo)){
             msg = "success";
