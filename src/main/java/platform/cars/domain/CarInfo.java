@@ -17,8 +17,8 @@ public class CarInfo extends BaseObject {
         return carId;
     }
 
-    public void setCarId(String cardId) {
-        this.carId = cardId;
+    public void setCarId(String carId) {
+        this.carId = carId;
     }
 
     public String getCarName() {

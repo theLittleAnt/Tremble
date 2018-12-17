@@ -86,7 +86,7 @@ public class BillService implements IBillService {
     @Transactional
     public boolean alterBillStatus(Bill bill) {
         boolean result = false;
-        if(!StringUtils.isEmpty(bill.getBuyerAccount())){
+        if(!StringUtils.isEmpty(bill.getBillId())){
             result = billDao.alterBillStatus(bill)>0?true:false;
         }
         return result;

@@ -20,14 +20,14 @@
     
     <update id="updateCarInfo" parameterType="platform.cars.domain.CarInfo">
         UPDATE car_info
-        <trim prefix="set" suffix=",">
-            <if test="car_name!=null">car_name=#{carName},</if>
-            <if test="car_price!=null">car_price=#{carPrice},</if>
-            <if test="car_main_pic!=null">car_main_pic=#{carMainPic},</if>
-            <if test="car_description!=null">car_description=#{carDescription},</if>
-            <if test="car_owner!=null">car_owner=#{carOwner},</if>
-            <if test="car_trade_place!=null">car_trade_place=#{carTradePlace},</if>
-            <if test="car_num!=null">car_num=#{carNum},</if>
+        <trim prefix="set" suffixOverrides=",">
+            <if test="carName!=null">car_name=#{carName},</if>
+            <if test="carPrice!=null">car_price=#{carPrice},</if>
+            <if test="carMainPic!=null">car_main_pic=#{carMainPic},</if>
+            <if test="carDescription!=null">car_description=#{carDescription},</if>
+            <if test="carOwner!=null">car_owner=#{carOwner},</if>
+            <if test="carTradePlace!=null">car_trade_place=#{carTradePlace},</if>
+            <if test="carNum!=null">car_num=#{carNum},</if>
         </trim>
         WHERE car_id = #{carId};
     </update>

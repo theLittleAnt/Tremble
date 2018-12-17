@@ -11,6 +11,7 @@ import platform.cars.service.IBillService;
 import platform.cars.service.IUserService;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -34,12 +35,17 @@ public class BillController {
      */
     @RequestMapping("/save")
     @DataCheckAnotation
-    public String saveBillInfo(Bill bill,String authToken){
+    public Map<String,Object> saveBillInfo(Bill bill,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(billService.saveBillInfo(bill)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -49,8 +55,12 @@ public class BillController {
      */
     @RequestMapping("/single")
     @DataCheckAnotation
-    public Bill getSingleBill(String billId,String authToken){
-        return billService.findOneBill(billId);
+    public Map<String,Object> getSingleBill(String billId,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",200);
+        map.put("msg","success");
+        map.put("data",billService.findOneBill(billId));
+        return map;
     }
 
     /**
@@ -63,7 +73,11 @@ public class BillController {
     @RequestMapping("/paginated-buyer")
     @DataCheckAnotation
     public Map<String,Object> getBuyerPaginatedBillInfo(Integer page, Integer size,String authToken){
-        return billService.findBuyerPaginatedBill(page,size,authToken);
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",200);
+        map.put("msg","success");
+        map.put("data",billService.findBuyerPaginatedBill(page,size,authToken));
+        return map;
     }
 
     /**
@@ -74,17 +88,26 @@ public class BillController {
      */
     @RequestMapping("/alter")
     @DataCheckAnotation
-    public String alterBill(Bill bill,String authToken){
+    public Map<String,Object> alterBill(Bill bill,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(billService.alterBillStatus(bill)){
+            code = 200;
             msg="success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     @RequestMapping("/paginated-seller")
     @DataCheckAnotation
-    Map<String,Object> findSellerPaginatedBill(Integer page, Integer size, String authToken){
-        return billService.findSellerPaginatedBill(page,size,authToken);
+    public Map<String,Object> findSellerPaginatedBill(Integer page, Integer size, String authToken){
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",200);
+        map.put("msg","success");
+        map.put("data",billService.findSellerPaginatedBill(page,size,authToken));
+        return map;
     }
 }

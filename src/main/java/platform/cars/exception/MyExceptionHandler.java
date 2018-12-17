@@ -16,7 +16,8 @@ public class MyExceptionHandler {
     @ExceptionHandler(value=Exception.class)
     public Map<String,Object> allExceptionHandler(Exception exception) throws Exception{
         Map<String,Object> map = new HashMap<>();
-        map.put("msg","error");
+        map.put("msg","error occur");
+        map.put("code",500);
         map.put("error",exception.getMessage());
         exception.printStackTrace();
         return map;

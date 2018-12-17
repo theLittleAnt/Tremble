@@ -11,7 +11,7 @@
 
     <update id="alterBillStatus" parameterType="platform.cars.domain.Bill">
         UPDATE BILLS
-        <trim prefix="set" suffix=",">
+        <trim prefix="set" suffixOverrides=",">
             <if test="status!=null">status=#{status},</if>
         </trim>
         WHERE bill_id = #{billId};

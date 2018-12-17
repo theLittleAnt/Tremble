@@ -139,14 +139,10 @@ public class CarInfoService implements ICarInfoService {
         boolean result = false;
         if(!StringUtils.isEmpty(carInfo.getCarName())){
             String carId = commonUtils.genAuthToken();
-            String fileName = null;
-            String defaultName = "touxiang.jpg";//设置默认图片
+            String fileName = "touxiang.jpg";//设置默认图片
             if(null!=file){
                 String filePath = fileUtils.picFilePath();
                 fileName = fileUtils.picFileName(file,carId);
-                if(fileName==null){
-                    fileName=defaultName;
-                }
                 fileUtils.uploadFile(file.getBytes(),filePath,fileName);
             }
             User user = userDao.findUserByToken(authToken);
@@ -190,7 +186,7 @@ public class CarInfoService implements ICarInfoService {
      */
     @Override
     public Map<String,Object> findPaginatedCarInfoByOwner(Integer page,Integer size,String carOwner) {
-        Map<String,Object> cars = null;
+        Map<String,Object> cars = new HashMap<>();
         if(!StringUtils.isEmpty(carOwner)){
             page=commonUtils.checkInteger(page,1);
             size=commonUtils.checkInteger(size,10);

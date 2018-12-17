@@ -38,22 +38,16 @@ public class DataCheckAspect {
         HttpServletRequest request=attributes.getRequest();
         String authToken = request.getParameter("authToken");
 
-        //joinPoint.proceed()获取的是方法的返回值
-        Object obj = joinPoint.proceed();
+        Object obj = null;
 
         if(StringUtils.isEmpty(authToken) || !userService.checkToken(authToken)){
-            if(obj instanceof String){
-                obj = "token error";
-            }else if(obj instanceof Map){
-                Map<String,Object> map = new HashMap<>();
-                map.put("msg","token error");
-                obj = map;
-            }else if(obj instanceof List){
-                obj = new ArrayList<>();
-                ((List) obj).add("token error");
-            }else if(obj instanceof BaseObject){
-                obj = null;
-            }
+            Map<String,Object> map = new HashMap<>();
+            map.put("code",401);
+            map.put("msg","token error");
+            obj = map;
+        }else{
+            //joinPoint.proceed()获取的是方法的返回值,即目标方法执行后的结果。PS:目标方法会被执行
+            obj = joinPoint.proceed();
         }
         return obj;
     }

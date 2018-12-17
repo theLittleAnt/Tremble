@@ -33,13 +33,16 @@ public class UserController {
     @RequestMapping("/login")
     public Map<String,Object> login(User user) {
         Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         User checkedUser = userService.checkIn(user);
         if(null!=checkedUser){
+            code = 200;
             msg = "success";
         }
         map.put("msg",msg);
-        map.put("user",checkedUser);
+        map.put("code",code);
+        map.put("data",checkedUser);
         return map;
     }
 
@@ -49,12 +52,17 @@ public class UserController {
      * @return
      */
     @RequestMapping("/register")
-    public String register(User user){
+    public Map<String,Object> register(User user){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(userService.register(user)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -64,8 +72,12 @@ public class UserController {
      */
     @RequestMapping("/sellers")
     @DataCheckAnotation
-    public List<UserInfo> getSellerList(String authToken){
-        return userService.findSellerList();
+    public Map<String,Object> getSellerList(String authToken){
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",200);
+        map.put("msg","success");
+        map.put("data",userService.findSellerList());
+        return map;
     }
 
     /**
@@ -75,12 +87,17 @@ public class UserController {
      */
     @RequestMapping("alter-pwd")
     @DataCheckAnotation
-    public String alterPwd(User user,String authToken){
+    public Map<String,Object> alterPwd(User user,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(userService.updatePwd(user)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -90,12 +107,17 @@ public class UserController {
      */
     @RequestMapping("alter-userinfo")
     @DataCheckAnotation
-    public String alterUserInfo(UserInfo userInfo,String authToken){
+    public Map<String,Object> alterUserInfo(UserInfo userInfo,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(userService.updateUserInfo(userInfo,authToken)){
+            code=200;
             msg="success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -106,12 +128,17 @@ public class UserController {
      */
     @RequestMapping("upload-qualification")
     @DataCheckAnotation
-    public String uploadQualification(MultipartFile file,String authToken){
+    public Map<String,Object> uploadQualification(MultipartFile file,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(userService.uploadQualification(file,authToken)){
+            code=200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -120,8 +147,12 @@ public class UserController {
      */
     @RequestMapping("/seller-request")
     @DataCheckAnotation
-    public List<UserInfo> dataCheck(String authToken){
-        return userService.findSellerRequestList();
+    public Map<String,Object> dataCheck(String authToken){
+        Map<String,Object> map = new HashMap<>();
+        map.put("data",userService.findSellerRequestList());
+        map.put("code",200);
+        map.put("msg","success");
+        return map;
     }
 
     /**
@@ -132,12 +163,17 @@ public class UserController {
      */
     @RequestMapping("/passed")
     @DataCheckAnotation
-    public String updateType(String account,String authToken){
+    public Map<String,Object> updateType(String account,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(userService.updateType(account)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -147,8 +183,12 @@ public class UserController {
      */
     @RequestMapping("/info")
     @DataCheckAnotation
-    public UserInfo getUserInfoByAuthToken(String authToken){
-        return userService.findUserInfoByAuthToken(authToken);
+    public Map<String,Object> getUserInfoByAuthToken(String authToken){
+        Map<String,Object> map = new HashMap<>();
+        map.put("data",userService.findUserInfoByAuthToken(authToken));
+        map.put("code",200);
+        map.put("msg","success");
+        return map;
     }
 
     @RequestMapping("/test")

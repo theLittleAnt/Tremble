@@ -140,8 +140,13 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean updateUserInfo(UserInfo userInfo,String authToken) {
-        userInfo.setAccount(userDao.findUserByToken(authToken).getAccount());
-        return userDao.updateUserInfo(userInfo)>0?true:false;
+        boolean result = false;
+        User user = userDao.findUserByToken(authToken);
+        if(null!=user && !StringUtils.isEmpty(user.getAccount())){
+            userInfo.setAccount(user.getAccount());
+            result = userDao.updateUserInfo(userInfo)>0?true:false;
+        }
+        return result;
     }
 
     /**

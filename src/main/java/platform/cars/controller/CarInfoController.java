@@ -13,6 +13,7 @@ import platform.cars.service.ICarInfoService;
 import platform.cars.service.IUserService;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -33,7 +34,11 @@ public class CarInfoController {
      */
     @RequestMapping("/paginated")
     public Map<String,Object> paginatedCarInfo( Integer page, Integer size){
-        return carInfoService.listCarInfoByPage(page,size);
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",200);
+        map.put("msg","success");
+        map.put("data",carInfoService.listCarInfoByPage(page,size));
+        return map;
     }
 
     /**
@@ -42,8 +47,12 @@ public class CarInfoController {
      * @return
      */
     @RequestMapping("/single")
-    public CarInfo getCarInfoByCarId(String carId){
-        return carInfoService.getCarInfoByCarId(carId);
+    public Map<String,Object> getCarInfoByCarId(String carId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("code",200);
+        map.put("msg","success");
+        map.put("data",carInfoService.getCarInfoByCarId(carId));
+        return map;
     }
 
     /**
@@ -54,12 +63,17 @@ public class CarInfoController {
      */
     @RequestMapping("buy")
     @DataCheckAnotation
-    public String buyCar(Bill bill,String authToken){
+    public Map<String,Object> buyCar(Bill bill,String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(carInfoService.buy(bill,authToken)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -70,12 +84,17 @@ public class CarInfoController {
      */
     @RequestMapping("drop")
     @DataCheckAnotation
-    public String dropCar(String carId, String authToken){
+    public Map<String,Object> dropCar(String carId, String authToken){
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(carInfoService.dropCarInfo(carId)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -87,26 +106,36 @@ public class CarInfoController {
      */
     @RequestMapping("/save")
     @DataCheckAnotation
-    public String saveCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
+    public Map<String,Object> saveCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(carInfoService.saveCarInfo(file,carInfo,authToken)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
      * 修改车辆信息
      * @return
      */
-    @RequestMapping("/update")
+    @RequestMapping("/alter")
     @DataCheckAnotation
-    public String updateCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
+    public Map<String,Object> updateCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
         String msg = "fail";
         if(carInfoService.updateCarInfo(file,carInfo)){
+            code = 200;
             msg = "success";
         }
-        return msg;
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
     /**
@@ -120,12 +149,20 @@ public class CarInfoController {
     @RequestMapping("/owners")
     @DataCheckAnotation
     public Map<String,Object> paginatedCarInfoByOwner(Integer page, Integer size, String authToken){
-        Map<String,Object> bills = null;
+        Map<String,Object> data = null;
+        Map<String,Object> map = new HashMap<>();
+        int code = 400;
+        String msg = "fail";
         User user = userService.findUserByToken(authToken);
         if(null!=user) {
-            bills = carInfoService.findPaginatedCarInfoByOwner(page, size, user.getAccount());
+            code = 200;
+            msg = "success";
+            data = carInfoService.findPaginatedCarInfoByOwner(page, size, user.getAccount());
         }
-        return bills;
+        map.put("data",data);
+        map.put("code",code);
+        map.put("msg",msg);
+        return map;
     }
 
 }
