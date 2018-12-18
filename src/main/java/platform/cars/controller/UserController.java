@@ -41,7 +41,7 @@ public class UserController {
         if (null != checkedUser) {
             code = 200;
             msg = "success";
-            Cookie cookie = new Cookie("authToken", checkedUser.getAuthToken());
+            Cookie cookie = new Cookie("AuthKey", checkedUser.getAuthToken());
             cookie.setMaxAge(30 * 60);//半小时过期
             cookie.setPath("/");//("/")表示的是访问当前工程下的所有webApp都会产生cookie
             cookie.setHttpOnly(false);

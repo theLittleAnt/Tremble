@@ -39,7 +39,7 @@ public class DataCheckAspect {
         Cookie[] cookies = request.getCookies();
         if(null!=cookies){
             for(Cookie cookie:cookies){
-                if(cookie.getName().equals("authToken")){
+                if(cookie.getName().equals("AuthKey")){
                     authToken = cookie.getValue();
                     break;
                 }
