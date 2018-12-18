@@ -9,13 +9,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import platform.cars.base.BaseObject;
 import platform.cars.service.IUserService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Aspect
@@ -36,10 +34,18 @@ public class DataCheckAspect {
     public Object beforeRequest(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes=(ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request=attributes.getRequest();
-        String authToken = request.getParameter("authToken");
-
+//        String authToken = request.getParameter("authToken");
+        String authToken = null;
+        Cookie[] cookies = request.getCookies();
+        if(null!=cookies){
+            for(Cookie cookie:cookies){
+                if(cookie.getName().equals("authToken")){
+                    authToken = cookie.getValue();
+                    break;
+                }
+            }
+        }
         Object obj = null;
-
         if(StringUtils.isEmpty(authToken) || !userService.checkToken(authToken)){
             Map<String,Object> map = new HashMap<>();
             map.put("code",401);

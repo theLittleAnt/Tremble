@@ -1,7 +1,7 @@
 package platform.cars.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("car-info")
-@CrossOrigin
+//@CrossOrigin
 public class CarInfoController {
     @Autowired
     private ICarInfoService carInfoService;
@@ -63,7 +63,7 @@ public class CarInfoController {
      */
     @RequestMapping("buy")
     @DataCheckAnotation
-    public Map<String,Object> buyCar(Bill bill,String authToken){
+    public Map<String,Object> buyCar(Bill bill,@CookieValue("authToken") String authToken){
         Map<String,Object> map = new HashMap<>();
         int code = 400;
         String msg = "fail";
@@ -79,12 +79,11 @@ public class CarInfoController {
     /**
      * 删除车辆信息
      * @param carId
-     * @param authToken
      * @return
      */
     @RequestMapping("drop")
     @DataCheckAnotation
-    public Map<String,Object> dropCar(String carId, String authToken){
+    public Map<String,Object> dropCar(String carId){
         Map<String,Object> map = new HashMap<>();
         int code = 400;
         String msg = "fail";
@@ -106,7 +105,7 @@ public class CarInfoController {
      */
     @RequestMapping("/save")
     @DataCheckAnotation
-    public Map<String,Object> saveCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
+    public Map<String,Object> saveCar(MultipartFile file,CarInfo carInfo,@CookieValue("authToken") String authToken) throws Exception {
         Map<String,Object> map = new HashMap<>();
         int code = 400;
         String msg = "fail";
@@ -125,7 +124,7 @@ public class CarInfoController {
      */
     @RequestMapping("/alter")
     @DataCheckAnotation
-    public Map<String,Object> updateCar(MultipartFile file,CarInfo carInfo,String authToken) throws Exception {
+    public Map<String,Object> updateCar(MultipartFile file,CarInfo carInfo) throws Exception {
         Map<String,Object> map = new HashMap<>();
         int code = 400;
         String msg = "fail";
@@ -148,7 +147,7 @@ public class CarInfoController {
      */
     @RequestMapping("/owners")
     @DataCheckAnotation
-    public Map<String,Object> paginatedCarInfoByOwner(Integer page, Integer size, String authToken){
+    public Map<String,Object> paginatedCarInfoByOwner(Integer page, Integer size,@CookieValue("authToken") String authToken){
         Map<String,Object> data = null;
         Map<String,Object> map = new HashMap<>();
         int code = 400;

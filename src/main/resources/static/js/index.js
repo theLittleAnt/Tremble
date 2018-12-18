@@ -16,6 +16,9 @@ function login() {
         type:'post',
         url:"/cars-sale/user/login",
         data:user,
+        xhrFields: {
+            withCredentials: true//cookie访问
+        },
         success:function (data) {
             if(data.msg=="success"){
                 sessionStorage.setItem("authToken",data.user.authToken);
