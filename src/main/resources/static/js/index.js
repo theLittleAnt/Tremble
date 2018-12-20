@@ -14,7 +14,7 @@ function login() {
     user.pwd = pwd;
     $.ajax({
         type:'post',
-        url:"https://localhost/cars-sale/user/login",
+        url:"/cars-sale/user/login",
         data:user,
         xhrFields: {
             withCredentials: true//cookie访问
@@ -59,7 +59,7 @@ function register() {
     user.pwd = pwd.value;
     $.ajax({
         type:"post",
-        url:"https://localhost/cars-sale/user/register",
+        url:"/cars-sale/user/register",
         data:user,
         success:function (data) {
             if(data=="success"){
