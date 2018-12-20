@@ -58,7 +58,7 @@
     </update>
 
     <select id="findUserByToken" resultType="platform.cars.domain.User" parameterType="String" >
-        SELECT account FROM USERS WHERE auth_token = #{authToken};
+        SELECT account,type FROM USERS WHERE auth_token = #{authToken};
     </select>
 
     <insert id="saveUserInfo" parameterType="String">

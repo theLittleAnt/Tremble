@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import platform.cars.anotation.DataCheckAnotation;
+import platform.cars.annotation.DataCheckAnotation;
 import platform.cars.domain.User;
 import platform.cars.domain.UserInfo;
 import platform.cars.service.IUserService;
@@ -41,11 +41,11 @@ public class UserController {
         if (null != checkedUser) {
             code = 200;
             msg = "success";
-            Cookie cookie = new Cookie("AuthKey", checkedUser.getAuthToken());
-            cookie.setMaxAge(30 * 60);//半小时过期
-            cookie.setPath("/");//("/")表示的是访问当前工程下的所有webApp都会产生cookie
-            cookie.setHttpOnly(false);
-            response.addCookie(cookie);
+            Cookie authCookie = new Cookie("authToken", checkedUser.getAuthToken());
+            authCookie.setMaxAge(30 * 60);//半小时过期
+            authCookie.setPath("/");//("/")表示的是访问当前工程下的所有webApp都会产生cookie
+            authCookie.setHttpOnly(true);//true表示JS不能操作cookie，false表示可以
+            response.addCookie(authCookie);
             checkedUser.setAuthToken(null);
         }
         map.put("msg", msg);

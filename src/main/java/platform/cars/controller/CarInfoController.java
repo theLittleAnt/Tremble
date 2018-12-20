@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import platform.cars.anotation.DataCheckAnotation;
+import platform.cars.annotation.DataCheckAnotation;
 import platform.cars.domain.Bill;
 import platform.cars.domain.CarInfo;
 import platform.cars.domain.User;

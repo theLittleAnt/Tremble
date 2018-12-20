@@ -1,7 +1,6 @@
 package platform.cars.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -10,7 +9,7 @@ import java.util.Map;
 
 @ControllerAdvice
 @ResponseBody
-@CrossOrigin
+//@CrossOrigin
 public class MyExceptionHandler {
 
     @ExceptionHandler(value=Exception.class)

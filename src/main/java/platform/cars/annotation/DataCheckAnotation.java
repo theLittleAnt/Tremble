@@ -1,4 +1,4 @@
-package platform.cars.anotation;
+package platform.cars.annotation;
 
 import org.springframework.stereotype.Component;
 

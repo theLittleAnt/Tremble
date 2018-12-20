@@ -14,15 +14,13 @@ function login() {
     user.pwd = pwd;
     $.ajax({
         type:'post',
-        url:"/cars-sale/user/login",
+        url:"https://localhost/cars-sale/user/login",
         data:user,
         xhrFields: {
             withCredentials: true//cookie访问
         },
         success:function (data) {
             if(data.msg=="success"){
-                sessionStorage.setItem("authToken",data.user.authToken);
-                sessionStorage.setItem("type",data.user.type);
                 window.location.href="/cars-sale/home";
             }else{
                 alert("登陆失败");
@@ -61,7 +59,7 @@ function register() {
     user.pwd = pwd.value;
     $.ajax({
         type:"post",
-        url:"/cars-sale/user/register",
+        url:"https://localhost/cars-sale/user/register",
         data:user,
         success:function (data) {
             if(data=="success"){
