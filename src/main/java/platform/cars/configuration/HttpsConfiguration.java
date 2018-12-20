@@ -8,6 +8,8 @@ package platform.cars.configuration;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //原本用于对登陆注册请求使用https，但是测试发现https抓包似乎也可以被看到传输字段。暂时不用
+//经过查证，fiddler能够获取请求体中的参数，是由于fiddler作为被信任的代理并安装了fiddler证书，因此fiddler大概可以
+//通过授信的其他证书解密请求体，所以能够获取具体内容
 //@Configuration
 public class HttpsConfiguration {
 //
