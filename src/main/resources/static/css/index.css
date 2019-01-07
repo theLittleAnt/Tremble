@@ -1,7 +1,22 @@
-.loginContainer{
-    width: 400px;
+html,body{
+    height: 100%;
+}
+.index-container{
+    display: flex;
+    height: 100%;
+    background: url("../pictures/car_bs.jpg") top left no-repeat #666;
+    background-size: 100% 100%;
+    flex-direction: column;
+    justify-content:center;
+    color: #fff;
+}
+.row-container{
     height: 450px;
-    background-color: #fff9;
+}
+.loginContainer{
+    width: 450px;
+    height: 250px;
+    background-color: rgba(255,255,255,0.5);
     border-radius: 15px;
     text-align: left;
 }

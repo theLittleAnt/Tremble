@@ -3,9 +3,30 @@ $(function () {
     getUserInfo();
 });
 
-
 //获取登录的信息
 function getUserInfo() {
+    var type = sessionStorage.getItem("type");
+    var items = document.getElementsByClassName("dropdown");
+    var len = items.length;
+    if(type==null || type ==""){
+        for(var i = 0 ;i<len;i++){
+            items[i].style.display="none";
+        }
+    }else{
+        switch (type){
+            case "0"://普通用户
+                for(var i = 1;i<len;i++){
+                    items[i].style.display="none";
+                }
+                break;
+            case "1"://卖家
+                items[2].style.display="none";
+                break;
+            case "2"://管理员
+                items[1].style.display="none";
+                break;
+        }
+    }
     $.ajax({
         type:"post",
         url:"/cars-sale/user/info",

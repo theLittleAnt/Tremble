@@ -1,5 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <header>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1>我的第一个 Bootstrap 页面</h1>
+        <p>重置浏览器窗口大小查看效果！</p>
+    </div>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -14,43 +20,14 @@
             </div>
             <div class="collapse navbar-collapse header_navbar">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="active">
                         <a href="/cars-sale/home" class="glyphicon glyphicon-home">&nbsp;主页</a>
-                    </li>
-                    <li class="dropdown user-op">
-                        <a href="#" class="dropdown-toggle glyphicon glyphicon-piggy-bank" data-toggle="dropdown">
-                            用户功能
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">用户信息</a></li>
-                            <li><a href="#">订单信息</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown seller-op">
-                        <a href="#" class="dropdown-toggle glyphicon glyphicon-scissors" data-toggle="dropdown">
-                            卖家功能
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">车辆信息</a></li>
-                            <li><a href="#">订单信息</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown admin-op">
-                        <a href="#" class="dropdown-toggle glyphicon glyphicon-filter" data-toggle="dropdown">
-                            管理员功能
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">审核资质</a></li>
-                        </ul>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="checked-in">
                         <a href="#">
-                            <span class="glyphicon glyphicon-user checked-user"></span>
+                            <span class="glyphicon glyphicon-user checked-user" onclick="toPersonal()"></span>
                         </a>
                     </li>
                     <li class="checked-in">

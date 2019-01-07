@@ -1,3 +1,4 @@
+//登陆
 function login() {
     var account = document.querySelector(".account").value;
     var pwd = document.querySelector(".pwd").value;
@@ -16,12 +17,13 @@ function login() {
         type:'post',
         url:"/cars-sale/user/login",
         data:user,
-        xhrFields: {
-            withCredentials: true//cookie访问
-        },
+        // xhrFields: {
+        //     withCredentials: true//cookie访问
+        // },
         success:function (data) {
-            if(data.msg=="success"){
+            if(data.code==200){
                 window.location.href="/cars-sale/home";
+                sessionStorage.setItem("type",data.data.type);
             }else{
                 alert("登陆失败");
             }
@@ -33,7 +35,7 @@ function login() {
     //     data:"acount="+account+"&pwd="+pwd
     // })
 }
-
+//注册
 function register() {
     var account = document.querySelector(".reg-account");
     var pwd = document.querySelector(".reg-pwd");
@@ -62,11 +64,11 @@ function register() {
         url:"/cars-sale/user/register",
         data:user,
         success:function (data) {
-            if(data=="success"){
+            if(data.code==200){
                 alert("注册成功");
             }else if(data=="fail"){
                 alert("注册失败");
-            }else if(data.msg=="error"){
+            }else if(data.code==500){
                 alert("账号已存在");
             }
 

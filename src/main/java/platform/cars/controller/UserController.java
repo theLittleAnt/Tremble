@@ -1,6 +1,7 @@
 package platform.cars.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -198,7 +199,7 @@ public class UserController {
      */
     @RequestMapping("/info")
     @DataCheckAnotation
-    public Map<String, Object> getUserInfoByAuthToken(@CookieValue("authToken") String authToken) {
+    public Map<String, Object> getUserInfoByAuthToken(@Nullable @CookieValue("authToken") String authToken) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", userService.findUserInfoByAuthToken(authToken));
         map.put("code", 200);

@@ -13,23 +13,24 @@ legend { color:#000; }
 fieldset, img { border:0; }
 button, input, select, textarea { font-size:100%; }
 table { border-collapse:collapse; border-spacing:0; }
-
 .inputComponent{
     position: relative;
+    margin: 20px 30px;
 }
 .inputComponent input{
     width: 100%;
     background:none;
     border:none;
-    border-bottom:1px solid #ddd;
+    border-bottom:1px solid rgba(255,255,255,0.9);
 }
 .inputComponent label{
     position: absolute;
     bottom: -3px;
     left:0;
-    color:#555;
+    color: #1b1b1b;
 }
 footer{
+    margin-top: 20px;
     text-align: center;
 }
 .carItemContainer{
@@ -55,4 +56,18 @@ footer{
 }
 .price{
     color:red;
+}
+.content-container{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content:center;
+}
+.button-container input{
+    margin:0 10px;
+    background-color: rgba(255,255,255,0.15);
+    color: #1b1b1b;
+}
+.dialog-container{
+    margin:0 auto;
 }

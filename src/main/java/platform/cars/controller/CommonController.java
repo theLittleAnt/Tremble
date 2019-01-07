@@ -21,6 +21,11 @@ public class CommonController {
         return "jsp/public/home";
     }
 
+    @RequestMapping("/personal")
+    public String toPersonal() {
+        return "jsp/personalcenter/personal_center";
+    }
+
     /**
      * 删除cookie并且跳转到登陆页面
      * @param request
