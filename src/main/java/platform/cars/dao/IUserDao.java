@@ -31,4 +31,6 @@ public interface IUserDao {
     List<UserInfo> findSellerList();
 
     List<UserInfo> findSellerRequestList();
+
+    UserInfo findUserInfoById(String userId);
 }

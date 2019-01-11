@@ -23,6 +23,7 @@ function login() {
         success:function (data) {
             if(data.code==200){
                 window.location.href="/cars-sale/home";
+
                 sessionStorage.setItem("type",data.data.type);
             }else{
                 alert("登陆失败");
@@ -71,11 +72,13 @@ function register() {
             }else if(data.code==500){
                 alert("账号已存在");
             }
-
         },
-        error:function (e){
+        error:function (){
             alert("账号已存在");
         }
     })
-
+    account.value="";
+    pwd.value="";
+    pwd_a.value="";
+    $(".register-modal").modal("hide");
 }

@@ -48,7 +48,7 @@ public class CarInfoService implements ICarInfoService {
         Map<String,Object> cars = new HashMap<>();
         cars.put("totalSize",carInfoDao.findAllCarInfo().size());
         page=commonUtils.checkInteger(page,1);
-        size=commonUtils.checkInteger(size,10);
+        size=commonUtils.checkInteger(size,12);
         cars.put("carsData",carInfoDao.listCarInfoByPage((page-1)*size,size));
         return cars;
     }

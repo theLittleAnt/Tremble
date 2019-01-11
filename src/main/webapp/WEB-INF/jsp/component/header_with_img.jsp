@@ -26,17 +26,17 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="checked-in">
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="glyphicon glyphicon-user checked-user" onclick="toPersonal()"></span>
                         </a>
                     </li>
                     <li class="checked-in">
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="glyphicon glyphicon-log-out" onclick="logout()">&nbsp;退出</span>
                         </a>
                     </li>
                     <li class="not-checked-in">
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <span class="glyphicon glyphicon-log-in" onclick="toLogin()">&nbsp;登陆</span>
                         </a>
                     </li>

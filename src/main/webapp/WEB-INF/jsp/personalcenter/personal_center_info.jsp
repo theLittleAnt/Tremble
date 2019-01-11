@@ -12,14 +12,16 @@
 
     <link rel="stylesheet" href="/cars-sale/static/css/component/component.css">
     <link rel="stylesheet" href="/cars-sale/static/css/personalcenter/personal_center.css">
+    <link rel="stylesheet" href="/cars-sale/static/css/personalcenter/personal-info.css">
+
     <title>personal center</title>
 </head>
 <body>
 
     <jsp:include page="../component/header.jsp"/>
 
-    <div class="page-container container">
-        <img src="/cars-sale/static/pictures/touxiang.jpg" alt="图片无法显示" class="img-thumbnail">
+    <div class="container page-container text-center">
+        <jsp:include page="items/personal_info.jsp"/>
     </div>
 
     <jsp:include page="../component/footer.jsp"/>
@@ -28,6 +30,7 @@
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="static/js/personalcenter/personal_center.js"></script>
+    <script src="static/js/personalcenter/personal_info.js"></script>
     <script src="static/js/common/common.js"></script>
 </body>
 </html>

@@ -28,6 +28,8 @@ public interface IUserService {
 
     User findUserByToken(String authToken);
 
+    UserInfo findSellerInfoById(String userId);
+
     List<UserInfo> findSellerList();
 
     List<UserInfo> findSellerRequestList();

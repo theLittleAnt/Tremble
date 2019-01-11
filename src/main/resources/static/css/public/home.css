@@ -1,0 +1,23 @@
+.img-container-modal{
+    width: 300px;
+    height: 300px;
+}
+.car-id-modal{
+    display: none;
+}
+.price-modal,.number-modal{
+    color: red;
+}
+.img-container-modal,.content-modal{
+    display: table-cell;
+    vertical-align: top;
+}
+.content-modal{
+    padding-left: 10px;
+}
+.car-description-modal{
+    text-indent:2em;//首行缩进两个字符
+    word-break:break-all;
+    white-space:normal;
+    word-wrap:normal;
+}

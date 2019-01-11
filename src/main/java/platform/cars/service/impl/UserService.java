@@ -175,6 +175,16 @@ public class UserService implements IUserService {
     }
 
     /**
+     * 根据卖家ID获取卖家信息
+     * @param userId
+     * @return
+     */
+    @Override
+    public UserInfo findSellerInfoById(String userId) {
+        return userDao.findUserInfoById(userId);
+    }
+
+    /**
      * 返回待审核的卖家信息
      * @return
      */

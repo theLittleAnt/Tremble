@@ -7,12 +7,18 @@ function logout() {
     sessionStorage.removeItem("type");
     window.location.href="/cars-sale/logout";
 }
-//个人中心
+//个人中心 个人信息部分
 function toPersonal() {
     window.location.href="/cars-sale/personal";
 }
+//个人中心 用户订单部分
+function toPersonalUserBill() {
+    window.location.href="/cars-sale/personal-user-bill";
+}
 //检查输入框中的值
 function checkValue(select,type){
+    //id-card:身份证号
+    //email:邮件
     //num:only num could be put
     //word:nun,word,underline and not whitespace
     //eSpetial:except . , & | ~ / \ ' " ; * $ { } [ ] ( ) = whitespace
@@ -27,6 +33,12 @@ function checkValue(select,type){
             break;
         case "eSpetial":
             exp=/[., &^|\/\\'";*$~\[\]{}()=]/g;
+            break;
+        case "id-card":
+            exp=/[^\dXx]/g;
+            break;
+        case "email":
+            exp=/[^\w.@]/g;
             break;
         default:
             alert("the parameter is wrong");
@@ -57,4 +69,13 @@ function showToolTip(selector,action,time,title) {
     setTimeout(function () {
         tip.tooltip("destroy");
     },time);
+}
+//阻止事件冒泡
+function cancelBubble(e) {
+    var evt = e ? e : window.event;
+    if (evt.stopPropagation) {//W3C
+        evt.stopPropagation();
+    }else {//IE
+        evt.cancelBubble = true;
+    }
 }

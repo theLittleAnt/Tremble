@@ -13,6 +13,13 @@ legend { color:#000; }
 fieldset, img { border:0; }
 button, input, select, textarea { font-size:100%; }
 table { border-collapse:collapse; border-spacing:0; }
+input{
+    border: none;
+    border-bottom: 1px solid rgba(50,50,50,0.3);
+}
+input[disabled],input:disabled{
+    background-color:rgba(0,0,0,0);
+}
 .inputComponent{
     position: relative;
     margin: 20px 30px;
@@ -70,4 +77,7 @@ footer{
 }
 .dialog-container{
     margin:0 auto;
+}
+.car-id{
+    display: none;
 }

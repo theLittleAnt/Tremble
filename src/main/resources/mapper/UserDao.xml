@@ -61,6 +61,10 @@
         SELECT account,type FROM USERS WHERE auth_token = #{authToken};
     </select>
 
+    <select id="findUserInfoById" resultType="platform.cars.domain.UserInfo" parameterType="String" >
+        SELECT * FROM USER_INFO WHERE account = #{userId};
+    </select>
+
     <insert id="saveUserInfo" parameterType="String">
         INSERT INTO USER_INFO SET account = #{account};
     </insert>

@@ -1,0 +1,12 @@
+.personal-info-container div{
+    margin: 20px;
+}
+.info-container{
+    width: fit-content;
+}
+.infos{
+    margin-left: 20px;
+}
+.info-save,.info-cancel{
+    display: none;
+}

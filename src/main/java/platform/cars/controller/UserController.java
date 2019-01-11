@@ -98,10 +98,11 @@ public class UserController {
      */
     @RequestMapping("alter-pwd")
     @DataCheckAnotation
-    public Map<String, Object> alterPwd(User user) {
+    public Map<String, Object> alterPwd(User user,@CookieValue("authToken") String authToken) {
         Map<String, Object> map = new HashMap<>();
         int code = 400;
         String msg = "fail";
+        user.setAuthToken(authToken);
         if (userService.updatePwd(user)) {
             code = 200;
             msg = "success";
@@ -202,6 +203,21 @@ public class UserController {
     public Map<String, Object> getUserInfoByAuthToken(@Nullable @CookieValue("authToken") String authToken) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", userService.findUserInfoByAuthToken(authToken));
+        map.put("code", 200);
+        map.put("msg", "success");
+        return map;
+    }
+
+    /**
+     * 根据卖家ID获取卖家信息
+     *
+     * @param ownerId
+     * @return
+     */
+    @RequestMapping("/seller-info")
+    public Map<String, Object> getSellerInfoById(String ownerId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", userService.findSellerInfoById(ownerId));
         map.put("code", 200);
         map.put("msg", "success");
         return map;

@@ -23,8 +23,14 @@ public class CommonController {
 
     @RequestMapping("/personal")
     public String toPersonal() {
-        return "jsp/personalcenter/personal_center";
+        return "jsp/personalcenter/personal_center_info";
     }
+
+    @RequestMapping("/personal-user-bill")
+    public String toPersonalUserBill() {
+        return "jsp/personalcenter/personal_center_user_bill";
+    }
+
 
     /**
      * 删除cookie并且跳转到登陆页面
