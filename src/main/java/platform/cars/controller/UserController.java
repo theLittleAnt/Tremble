@@ -209,19 +209,20 @@ public class UserController {
     }
 
     /**
-     * 根据卖家ID获取卖家信息
+     * 根据ID获取用户信息
      *
-     * @param ownerId
+     * @param userId
      * @return
      */
-    @RequestMapping("/seller-info")
-    public Map<String, Object> getSellerInfoById(String ownerId) {
+    @RequestMapping("/user-info")
+    public Map<String, Object> getSellerInfoById(String userId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("data", userService.findSellerInfoById(ownerId));
+        map.put("data", userService.findUserInfoById(userId));
         map.put("code", 200);
         map.put("msg", "success");
         return map;
     }
+
 
     @RequestMapping("/test")
     @DataCheckAnotation

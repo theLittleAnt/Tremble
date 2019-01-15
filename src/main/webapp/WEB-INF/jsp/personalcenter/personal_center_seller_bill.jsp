@@ -12,8 +12,8 @@
 
     <link rel="stylesheet" href="/cars-sale/static/css/component/component.css">
     <link rel="stylesheet" href="/cars-sale/static/css/personalcenter/personal_center.css">
-    <link rel="stylesheet" href="/cars-sale/static/css/personalcenter/table-modal.css">
     <link rel="stylesheet" href="/cars-sale/static/css/component/pagination.css">
+    <link rel="stylesheet" href="/cars-sale/static/css/personalcenter/table-modal.css">
 
     <title>personal center</title>
 </head>
@@ -22,7 +22,7 @@
     <jsp:include page="../component/header.jsp"/>
 
     <div class="container page-container text-center">
-        <jsp:include page="items/user_bill_info.jsp"/>
+        <jsp:include page="items/seller_bill_info.jsp"/>
         <jsp:include page="../component/pagination.jsp"/>
     </div>
 
@@ -31,9 +31,9 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <script src="static/js/personalcenter/personal_center.js"></script>
     <script src="static/js/common/common.js"></script>
     <script src="static/js/common/pagination.js"></script>
-    <script src="static/js/personalcenter/personal_center.js"></script>
-    <script src="static/js/personalcenter/user_bill_info.js"></script>
+    <script src="static/js/personalcenter/seller_bill_info.js"></script>
 </body>
 </html>

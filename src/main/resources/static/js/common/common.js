@@ -15,6 +15,14 @@ function toPersonal() {
 function toPersonalUserBill() {
     window.location.href="/cars-sale/personal-user-bill";
 }
+//个人中心 卖家订单部分
+function toPersonalSellerBill() {
+    window.location.href="/cars-sale/personal-seller-bill";
+}
+//个人中心 卖家车辆部分
+function toPersonalSellerCars() {
+    window.location.href="/cars-sale/personal-seller-cars";
+}
 //检查输入框中的值
 function checkValue(select,type){
     //id-card:身份证号

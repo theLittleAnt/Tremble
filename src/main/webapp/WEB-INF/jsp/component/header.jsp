@@ -33,8 +33,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">车辆信息</a></li>
-                            <li><a href="#">订单信息</a></li>
+                            <li><a href="javascript:toPersonalSellerCars()">车辆信息</a></li>
+                            <li><a href="javascript:toPersonalSellerBill()">订单信息</a></li>
                         </ul>
                     </li>
                     <li class="dropdown admin-op">

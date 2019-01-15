@@ -1,10 +1,10 @@
 $(function () {
-    getUserBill(1);
+    getSellerBill(1);
 })
-//获取用户个人订单信息
-function getUserBill(page) {
+//获取卖家收到的订单信息
+function getSellerBill(page) {
     $.ajax({
-        url:"/cars-sale/bill/paginated-buyer",
+        url:"/cars-sale/bill/paginated-seller",
         type:"post",
         data:"page="+page,
         success:function (data) {
@@ -12,26 +12,23 @@ function getUserBill(page) {
                 var datas = data.data;
                 var dataList = datas.billsData;
                 var len = dataList.length;
-                pageOpration('getUserBill',page,data.data.totalSize);
+                pageOpration('getSellerBill',page,data.data.totalSize);
                 if(len>0){
                     var str = [];
                     for(var i=0;i<len;i++){
-                        var status="未交易";
-                        var buttons="<button class=\"btn btn-default btn-xs\" onclick=\"showBillDetails("+dataList[i].status+",'"+dataList[i].carId+"')\">查看</button>";
+                        var status="订单交易";
+                        var buttons="<button class=\"btn btn-default btn-xs\" onclick=\"showBillDetails("+dataList[i].status+",'"+dataList[i].carId+"','"+dataList[i].buyerAccount+"')\">查看</button>";
                         switch(dataList[i].status){
-                            case 1:
-                                status="已确认";
+                            case 0:
+                                status="未交易";
+                                buttons+="<button class=\"btn btn-default btn-xs\" onclick=\"alterBillStatus(this,'"+dataList[i].billId+"',3,'"+dataList[i].carId+"','"+dataList[i].buyerAccount+"')\">取消</button>";
                                 break;
-                            case 2:
-                                status="订单完成";
+                            case 1:
+                                status="待确认";
+                                buttons+="<button class=\"btn btn-default btn-xs\" onclick=\"alterBillStatus(this,'"+dataList[i].billId+"',2,'"+dataList[i].carId+"','"+dataList[i].buyerAccount+"')\">确认</button>";
                                 break;
                             case 3:
                                 status="订单关闭";
-                                break;
-                            default:
-                                buttons="<button class=\"btn btn-default btn-xs btn-detail\" onclick=\"showBillDetails("+dataList[i].status+",'"+dataList[i].carId+"')\">查看</button>" +
-                                        "<button class=\"btn btn-default btn-xs btn-alter\" onclick=\"alterBillStatus(this,'"+dataList[i].billId+"',1,'"+dataList[i].carId+"')\">确认</button>" +
-                                        "<button class=\"btn btn-default btn-xs btn-alter\" onclick=\"alterBillStatus(this,'"+dataList[i].billId+"',3,'"+dataList[i].carId+"')\">取消</button>";
                                 break;
                         }
                         str.push("<tr>" +
@@ -55,8 +52,7 @@ function getUserBill(page) {
     })
 }
 //查看订单详情
-function showBillDetails(type,carId) {
-        var ownerId="";
+function showBillDetails(type,carId,buyerId) {
         $.ajax({
             url:"/cars-sale/car-info/single",
             type:"post",
@@ -66,7 +62,6 @@ function showBillDetails(type,carId) {
                 if(data.code==200 && data!=null){
                     var carInfo=data.data;
                     if(carInfo!=null){
-                        ownerId = carInfo.carOwner;
                         document.querySelector(".img-modal").src=carInfo.carMainPic;
                         document.querySelector(".car-name-modal").innerHTML=carInfo.carName;
                         document.querySelector(".price-modal").innerHTML=carInfo.carPrice;
@@ -80,16 +75,16 @@ function showBillDetails(type,carId) {
             }
         })
         $.ajax({
-            url:"/cars-sale/user/userId",
+            url:"/cars-sale/user/user-info",
             type:"post",
             async:false,
-            data:"userId="+ownerId,
+            data:"userId="+buyerId,
             success:function (data) {
                 if(data.code==200 && data!=null){
-                    var seller = data.data;
-                    if(seller!=null){
-                        document.querySelector(".owner-name-modal").innerHTML=seller.name;
-                        document.querySelector(".owner-phone-modal").innerHTML=seller.phone;
+                    var buyer = data.data;
+                    if(buyer!=null){
+                        document.querySelector(".buyer-name-modal").innerHTML=buyer.name;
+                        document.querySelector(".buyer-phone-modal").innerHTML=buyer.phone;
                     }
                 }
             }
@@ -97,7 +92,7 @@ function showBillDetails(type,carId) {
         var status = "未交易";
         switch (type){
             case 1:
-                status="已确认";
+                status="待确认";
                 break;
             case 2:
                 status="订单完成";
@@ -108,22 +103,23 @@ function showBillDetails(type,carId) {
         }
         document.querySelector(".state-modal").innerHTML=status;
         $(".car-info-model").modal("show");
-
 }
 //修改订单状态
-function alterBillStatus(obj,billId,type,carId) {
+function alterBillStatus(obj,billId,type,carId,buyerId) {
     var bill = {};
     bill.billId=billId;
     var status;
     switch (type){
-        case 1://确认交易
-            bill.status=1;
-            status="已确认"
+        case 2://交易完成
+            bill.status=2;
+            status="交易完成"
             break;
         case 3://关闭交易
             bill.status=3;
             status="订单关闭";
             break;
+        default:
+            return;
     }
     $.ajax({
         url:"/cars-sale/bill/alter",
@@ -133,13 +129,13 @@ function alterBillStatus(obj,billId,type,carId) {
             if(data.code==200){
                 var row = obj.parentNode.parentNode;
                 row.cells[1].innerHTML=status;
-                var buttoms = row.cells[3].childNodes;
-                while(buttoms.length>1){
-                    buttoms[buttoms.length-1].parentNode.removeChild(buttoms[buttoms.length-1]);
+                var buttons = row.cells[3].childNodes;
+                while(buttons.length>1){
+                    buttons[buttons.length-1].parentNode.removeChild(buttons[buttons.length-1]);
                 }
-                buttoms[0].onclick="";
-                buttoms[0].onclick=function(){
-                    showBillDetails(type,carId);
+                buttons[0].onclick="";
+                buttons[0].onclick=function () {
+                    showBillDetails(type,carId,buyerId);
                 }
                 alert("操作成功");
             }else if(data.code==401){

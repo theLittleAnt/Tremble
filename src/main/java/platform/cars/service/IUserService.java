@@ -28,7 +28,7 @@ public interface IUserService {
 
     User findUserByToken(String authToken);
 
-    UserInfo findSellerInfoById(String userId);
+    UserInfo findUserInfoById(String userId);
 
     List<UserInfo> findSellerList();
 

@@ -180,9 +180,10 @@ public class UserService implements IUserService {
      * @return
      */
     @Override
-    public UserInfo findSellerInfoById(String userId) {
+    public UserInfo findUserInfoById(String userId) {
         return userDao.findUserInfoById(userId);
     }
+
 
     /**
      * 返回待审核的卖家信息

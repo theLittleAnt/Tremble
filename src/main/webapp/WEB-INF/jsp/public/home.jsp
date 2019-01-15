@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary buy-modal">购买</button>
+                        <button class="btn btn-primary buy-modal">购买</button>
                     </div>
                 </div>
 

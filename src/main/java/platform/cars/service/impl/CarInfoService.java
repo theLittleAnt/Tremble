@@ -1,6 +1,7 @@
 package platform.cars.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,6 +38,9 @@ public class CarInfoService implements ICarInfoService {
 
     @Autowired
     private FileUtils fileUtils;
+
+    @Value("${web.upload-path}")
+    private String path;
     /**
      * 根据传入的起始位置和大小返回车辆信息
      * @param page
@@ -118,7 +122,7 @@ public class CarInfoService implements ICarInfoService {
                 if(!StringUtils.isEmpty(picPath)){
                     String fileName = carInfo.getCarMainPic();
                     fileName=fileName.substring(fileName.lastIndexOf("/"));
-                    fileUtils.dropFile(fileUtils.picFilePath()+fileName);
+                    fileUtils.dropFile(path+fileName);
                 }
                 result = carInfoDao.dropCarInfo(carId)>0?true:false;
             }else{
@@ -141,7 +145,7 @@ public class CarInfoService implements ICarInfoService {
             String carId = commonUtils.genAuthToken();
             String fileName = "touxiang.jpg";//设置默认图片
             if(null!=file){
-                String filePath = fileUtils.picFilePath();
+                String filePath = path;
                 fileName = fileUtils.picFileName(file,carId);
                 fileUtils.uploadFile(file.getBytes(),filePath,fileName);
             }
@@ -149,7 +153,7 @@ public class CarInfoService implements ICarInfoService {
             if(null!=user){
                 carInfo.setCarOwner(user.getAccount());
                 carInfo.setCarId(carId);
-                carInfo.setCarMainPic("/cars-sale/static/pictures/"+fileName);
+                carInfo.setCarMainPic("/cars-sale/static/"+fileName);
                 result = carInfoDao.saveCarInfo(carInfo)>0?true:false;
             }
         }
@@ -167,11 +171,11 @@ public class CarInfoService implements ICarInfoService {
         boolean result = false;
         if(!StringUtils.isEmpty(carInfo.getCarId())){
             if(null!=file){
-                String filePath = fileUtils.picFilePath();
+                String filePath = path;
                 String fileName = fileUtils.picFileName(file,carInfo.getCarId());
                 if(fileName!=null){
                     fileUtils.uploadFile(file.getBytes(),filePath,fileName);
-                    carInfo.setCarMainPic("/cars-sale/static/pictures/"+fileName);
+                    carInfo.setCarMainPic("/cars-sale/static/"+fileName);
                 }
             }
             result = carInfoDao.updateCarInfo(carInfo)>0?true:false;
@@ -189,8 +193,8 @@ public class CarInfoService implements ICarInfoService {
         Map<String,Object> cars = new HashMap<>();
         if(!StringUtils.isEmpty(carOwner)){
             page=commonUtils.checkInteger(page,1);
-            size=commonUtils.checkInteger(size,10);
-            cars.put("carsData",carInfoDao.findPaginatedCarInfoByOwner(page,size,carOwner));
+            size=commonUtils.checkInteger(size,12);
+            cars.put("carsData",carInfoDao.findPaginatedCarInfoByOwner((page-1)*size,size,carOwner));
             cars.put("totalSize",carInfoDao.findAllCarInfoByOwner(carOwner).size());
         }
         return cars;

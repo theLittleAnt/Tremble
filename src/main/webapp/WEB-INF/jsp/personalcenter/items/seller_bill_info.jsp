@@ -11,23 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <%--<tr>--%>
-                    <%--<td>--%>
-                        <%--<span></span>--%>
-                        <%--<span class="bill-id"></span>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--<span class="bill-state">未交易</span>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--<span class="bill-car-id">1</span>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                        <%--<button class="btn btn-default btn-xs">查看</button>--%>
-                        <%--<button class="btn btn-default btn-xs">确认</button>--%>
-                        <%--<button class="btn btn-default btn-xs">取消</button>--%>
-                    <%--</td>--%>
-                <%--</tr>--%>
+
             </tbody>
         </table>
     </div>
@@ -68,12 +52,12 @@
                             <p class="car-description-modal"></p>
                         </div>
                         <div>
-                            <span>卖家姓名：</span>
-                            <span class="owner-name-modal"></span>
+                            <span>买家姓名：</span>
+                            <span class="buyer-name-modal"></span>
                         </div>
                         <div>
                             <span>联系电话：</span>
-                            <span class="owner-phone-modal"></span>
+                            <span class="buyer-phone-modal"></span>
                         </div>
                     </div>
                 </div>

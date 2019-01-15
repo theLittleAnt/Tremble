@@ -16,21 +16,35 @@ public class CommonController {
         return "index";
     }
 
+    //主页
     @RequestMapping("/home")
     public String toHome() {
         return "jsp/public/home";
     }
 
+    //个人中心
     @RequestMapping("/personal")
     public String toPersonal() {
         return "jsp/personalcenter/personal_center_info";
     }
 
+    //个人中心用户订单
     @RequestMapping("/personal-user-bill")
     public String toPersonalUserBill() {
         return "jsp/personalcenter/personal_center_user_bill";
     }
 
+    //个人中心卖家订单
+    @RequestMapping("/personal-seller-bill")
+    public String toPersonalSellerBill() {
+        return "jsp/personalcenter/personal_center_seller_bill";
+    }
+
+    //个人中心卖家车辆信息
+    @RequestMapping("/personal-seller-cars")
+    public String toPersonalSellerCars() {
+        return "jsp/personalcenter/personal_center_cars_info";
+    }
 
     /**
      * 删除cookie并且跳转到登陆页面

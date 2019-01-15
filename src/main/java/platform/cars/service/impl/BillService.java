@@ -115,7 +115,7 @@ public class BillService implements IBillService {
         if (null!=user){
             bills.put("totalSize",billDao.findAllBillBySallerAccount(user.getAccount()).size());
             page=commonUtils.checkInteger(page,1);
-            size=commonUtils.checkInteger(size,10);
+            size=commonUtils.checkInteger(size,12);
             bills.put("billsData",billDao.findSallerPaginatedBill((page-1)*size,size,user.getAccount()));
         }
         return bills;

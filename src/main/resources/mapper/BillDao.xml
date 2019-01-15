@@ -27,7 +27,7 @@
 
 
     <select id="findBuyerPaginatedBill" resultType="platform.cars.domain.Bill">
-        SELECT * FROM BILLS WHERE buyer_account=#{param3} LIMIT #{param1},#{param2};
+        SELECT * FROM BILLS WHERE buyer_account=#{param3} order by status asc LIMIT #{param1},#{param2};
     </select>
 
     <select id="findAllBillByBuyerAccount" parameterType="String" resultType="platform.cars.domain.Bill">
@@ -37,7 +37,7 @@
     <select id="findSallerPaginatedBill" resultType="platform.cars.domain.Bill">
         SELECT * FROM BILLS where car_id in(
             SELECT car_id FROM car_info WHERE car_owner = #{param3}
-        ) LIMIT #{param1},#{param2};
+        ) order by status asc LIMIT #{param1},#{param2};
     </select>
 
     <select id="findAllBillBySallerAccount" parameterType="String" resultType="platform.cars.domain.Bill">

@@ -115,7 +115,6 @@ function showCarInfoModal(carId) {
                     document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;
                     document.querySelector(".car-description-modal").innerHTML=carInfo.carDescription;
                 }
-
             }else{
                 alert("请求出错");
                 return;
