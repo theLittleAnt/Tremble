@@ -71,7 +71,7 @@ function showBillDetails(type,carId) {
                     var carInfo=data.data;
                     if(carInfo!=null){
                         ownerId = carInfo.carOwner;
-                        document.querySelector(".img-modal").src=carInfo.carMainPic;
+                        document.querySelector(".img-modal").src=carInfo.carMainPic+"?"+Math.random();
                         document.querySelector(".car-name-modal").innerHTML=carInfo.carName;
                         document.querySelector(".price-modal").innerHTML=carInfo.carPrice;
                         document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;

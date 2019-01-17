@@ -55,7 +55,7 @@ function getCarPaginationInfo(page) {
                     dataList.push("<div class=\"col-md-3 col-sm-4 col-xs-6\" onclick=\"showCarInfoModal('"+carsList[i].carId+"')\">");
                     dataList.push("<div class=\"carItemContainer\">");
                     dataList.push("<div class=\"imgContainer text-center\">");
-                    dataList.push("<img src=\""+carsList[i].carMainPic+"\" alt=\"图片无法显示\" class=\"img-thumbnail\"></div>");
+                    dataList.push("<img src=\""+carsList[i].carMainPic+"?"+Math.random()+"\" alt=\"图片无法显示\" class=\"img-thumbnail\"></div>");
                     dataList.push("<div class=\"infoContainer text-left\">");
                     dataList.push("<div class=\"car-id\">"+carsList[i].carId+"</div>");
                     dataList.push("<div><span>名称：</span><span class=\"carName\">"+carsList[i].carName+"</span></div>");
@@ -115,7 +115,7 @@ function showCarInfoModal(carId) {
                 var carInfo=data.data;
                 if(carInfo!=null){
                     ownerId = carInfo.carOwner;
-                    document.querySelector(".img-modal").src=carInfo.carMainPic;
+                    document.querySelector(".img-modal").src=carInfo.carMainPic+"?"+Math.random();
                     document.querySelector(".car-name-modal").innerHTML=carInfo.carName;
                     document.querySelector(".price-modal").innerHTML=carInfo.carPrice;
                     document.querySelector(".number-modal").innerHTML=carInfo.carNum;

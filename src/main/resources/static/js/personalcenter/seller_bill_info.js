@@ -47,10 +47,6 @@ function getSellerBill(page) {
                     }
                     document.querySelector("tbody").innerHTML=str.join("");
                 }
-            }else if(data.code==401){
-                alert("请重新登录");
-            }else{
-                alert("请求失败");
             }
         }
     })
@@ -67,7 +63,7 @@ function showBillDetails(type,carId,buyerId) {
             if(data.code==200 && data!=null){
                 var carInfo=data.data;
                 if(carInfo!=null){
-                    document.querySelector(".img-modal").src=carInfo.carMainPic;
+                    document.querySelector(".img-modal").src=carInfo.carMainPic+"?"+Math.random();
                     document.querySelector(".car-name-modal").innerHTML=carInfo.carName;
                     document.querySelector(".price-modal").innerHTML=carInfo.carPrice;
                     document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;
@@ -83,7 +79,7 @@ function showBillDetails(type,carId,buyerId) {
         }
     })
     if(tag){
-        return;
+        trru
     }
     $.ajax({
         url:"/cars-sale/user/user-info",
