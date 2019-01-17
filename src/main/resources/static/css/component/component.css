@@ -59,6 +59,7 @@ textarea::-webkit-scrollbar-track {/*滚动条里面轨道*/
 footer{
     margin-top: 20px;
     text-align: center;
+    background: #f8f8f8;
 }
 .carItemContainer{
     position: relative;
