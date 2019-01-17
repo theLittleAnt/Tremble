@@ -47,62 +47,73 @@ function getSellerBill(page) {
                     }
                     document.querySelector("tbody").innerHTML=str.join("");
                 }
+            }else if(data.code==401){
+                alert("请重新登录");
+            }else{
+                alert("请求失败");
             }
         }
     })
 }
 //查看订单详情
 function showBillDetails(type,carId,buyerId) {
-        $.ajax({
-            url:"/cars-sale/car-info/single",
-            type:"post",
-            async:false,
-            data:"carId="+carId,
-            success:function (data) {
-                if(data.code==200 && data!=null){
-                    var carInfo=data.data;
-                    if(carInfo!=null){
-                        document.querySelector(".img-modal").src=carInfo.carMainPic;
-                        document.querySelector(".car-name-modal").innerHTML=carInfo.carName;
-                        document.querySelector(".price-modal").innerHTML=carInfo.carPrice;
-                        document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;
-                        document.querySelector(".car-description-modal").innerHTML=carInfo.carDescription;
-                    }
-                }else{
-                    alert("请求出错");
-                    return;
+    var tag =false;
+    $.ajax({
+        url:"/cars-sale/car-info/single",
+        type:"post",
+        async:false,
+        data:"carId="+carId,
+        success:function (data) {
+            if(data.code==200 && data!=null){
+                var carInfo=data.data;
+                if(carInfo!=null){
+                    document.querySelector(".img-modal").src=carInfo.carMainPic;
+                    document.querySelector(".car-name-modal").innerHTML=carInfo.carName;
+                    document.querySelector(".price-modal").innerHTML=carInfo.carPrice;
+                    document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;
+                    document.querySelector(".car-description-modal").innerHTML=carInfo.carDescription;
                 }
+            }else if(data.code==401){
+                alert("请重新登录");
+                tag=true;
+            }else{
+                alert("请求失败");
+                tag=true;
             }
-        })
-        $.ajax({
-            url:"/cars-sale/user/user-info",
-            type:"post",
-            async:false,
-            data:"userId="+buyerId,
-            success:function (data) {
-                if(data.code==200 && data!=null){
-                    var buyer = data.data;
-                    if(buyer!=null){
-                        document.querySelector(".buyer-name-modal").innerHTML=buyer.name;
-                        document.querySelector(".buyer-phone-modal").innerHTML=buyer.phone;
-                    }
-                }
-            }
-        })
-        var status = "未交易";
-        switch (type){
-            case 1:
-                status="待确认";
-                break;
-            case 2:
-                status="订单完成";
-                break;
-            case 3:
-                status="订单关闭";
-                break;
         }
-        document.querySelector(".state-modal").innerHTML=status;
-        $(".car-info-model").modal("show");
+    })
+    if(tag){
+        return;
+    }
+    $.ajax({
+        url:"/cars-sale/user/user-info",
+        type:"post",
+        async:false,
+        data:"userId="+buyerId,
+        success:function (data) {
+            if(data.code==200 && data!=null){
+                var buyer = data.data;
+                if(buyer!=null){
+                    document.querySelector(".buyer-name-modal").innerHTML=buyer.name;
+                    document.querySelector(".buyer-phone-modal").innerHTML=buyer.phone;
+                }
+            }
+        }
+    })
+    var status = "未交易";
+    switch (type){
+        case 1:
+            status="待确认";
+            break;
+        case 2:
+            status="订单完成";
+            break;
+        case 3:
+            status="订单关闭";
+            break;
+    }
+    document.querySelector(".state-modal").innerHTML=status;
+    $(".car-info-model").modal("show");
 }
 //修改订单状态
 function alterBillStatus(obj,billId,type,carId,buyerId) {

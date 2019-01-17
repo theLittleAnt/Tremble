@@ -67,6 +67,10 @@ function getCarPaginationInfo(page) {
                 }
                 var row = document.querySelector(".row");
                 row.innerHTML=dataList.join("");//数组转字符串
+            }else if(data.code==401){
+                alert("请重新登录！");
+            }else{
+                alert("请求失败");
             }
         }
     })
@@ -88,8 +92,10 @@ function buy(carId) {
         success:function (data) {
             if(data.code==200){
                 alert("购买成功！");
+            }else if(data.code==401){
+                alert("请重新登录！");
             }else{
-                alert("购买失败,请登录！");
+                alert("购买失败,\n不能购买自己的车辆或未知错误");
             }
         }
     })
@@ -98,6 +104,7 @@ function buy(carId) {
 //显示车辆具体信息
 function showCarInfoModal(carId) {
     var ownerId="";
+    var tag =false;
     $.ajax({
         url:"/cars-sale/car-info/single",
         type:"post",
@@ -115,12 +122,18 @@ function showCarInfoModal(carId) {
                     document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;
                     document.querySelector(".car-description-modal").innerHTML=carInfo.carDescription;
                 }
+            }else if(data.code==401){
+                alert("请重新登录！");
+                tag=true;
             }else{
-                alert("请求出错");
-                return;
+                alert("请求失败");
+                tag=true;
             }
         }
     })
+    if(tag){
+        return;
+    }
     $.ajax({
         url:"/cars-sale/user/user-info",
         type:"post",

@@ -50,6 +50,10 @@ function getUserBill(page) {
                     }
                     document.querySelector("tbody").innerHTML=str.join("");
                 }
+            }else if(data.code==401){
+                alert("请重新登录");
+            }else{
+                alert("请求失败");
             }
         }
     })
@@ -73,9 +77,10 @@ function showBillDetails(type,carId) {
                         document.querySelector(".trade-place-modal").innerHTML=carInfo.carTradePlace;
                         document.querySelector(".car-description-modal").innerHTML=carInfo.carDescription;
                     }
+                }else if(data.code==401){
+                    alert("请重新登录");
                 }else{
-                    alert("请求出错");
-                    return;
+                    alert("请求失败");
                 }
             }
         })
@@ -91,6 +96,10 @@ function showBillDetails(type,carId) {
                         document.querySelector(".owner-name-modal").innerHTML=seller.name;
                         document.querySelector(".owner-phone-modal").innerHTML=seller.phone;
                     }
+                }else if(data.code==401){
+                    alert("请重新登录");
+                }else{
+                    alert("请求失败");
                 }
             }
         })

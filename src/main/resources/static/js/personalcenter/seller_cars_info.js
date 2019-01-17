@@ -35,6 +35,10 @@ function getCarsInfo(page) {
                     }
                     document.querySelector("tbody").innerHTML=str.join("");
                 }
+            }else if(data.code==401){
+                alert("请重新登录");
+            }else{
+                alert("请求失败");
             }
         }
     })
@@ -68,6 +72,10 @@ function showModal(carId,type,obj) {
                     tradePlace.value=carInfo.carTradePlace;
                     description.value=carInfo.carDescription;
                 }
+            }else if(data.code==401){
+                alert("请重新登录");
+            }else{
+                alert("请求失败");
             }
         }
     })

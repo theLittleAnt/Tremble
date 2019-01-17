@@ -107,8 +107,10 @@ function saveUserInfo(userInfo) {
                 }
                 resetOldData(userInfo);
                 toggle("0");
+            }else if(data.code==401){
+                alert("请重新登录");
             }else{
-                alert("修改失败");
+                alert("请求失败");
             }
         }
     })
@@ -155,8 +157,10 @@ function initUserInfo() {
                 email.value = userInfo.email;
                 age.value = userInfo.age;
                 address.value = userInfo.address;
+            }else if(data.code==401){
+                alert("请重新登录");
             }else{
-                alert("请重新登陆");
+                alert("请求失败");
             }
         }
     })
@@ -186,8 +190,10 @@ function alterPwd() {
         success:function (data) {
             if(data.code==200){
                 alert("修改成功");
+            }else if(data.code==401){
+                alert("请重新登录");
             }else{
-                alert("请重新登陆");
+                alert("请求失败");
             }
         }
     })

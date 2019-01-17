@@ -67,7 +67,7 @@ function register() {
         success:function (data) {
             if(data.code==200){
                 alert("注册成功");
-            }else if(data=="fail"){
+            }else if(data.code==400){
                 alert("注册失败");
             }else if(data.code==500){
                 alert("账号已存在");

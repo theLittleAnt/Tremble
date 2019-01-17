@@ -79,7 +79,7 @@ public class CarInfoService implements ICarInfoService {
     }
 
     /**
-     * 根据token获取买家账号
+     * 根据token获取买家账号,买家与车辆卖家必须为不同人
      * 根据传入的订单车辆id减少车辆数
      * 生成订单id
      * 存入bill表
@@ -93,7 +93,8 @@ public class CarInfoService implements ICarInfoService {
         boolean result = false;
         if(!StringUtils.isEmpty(bill.getCarId())){
             User buyer= userDao.findUserByToken(authToken);
-            if(null!=buyer){
+            CarInfo carInfo = carInfoDao.findCarInfoByCardId(bill.getCarId());
+            if(null!=buyer && !buyer.getAccount().equals(carInfo.getCarOwner())){
                 carInfoDao.decreaseNumOfCar(bill.getCarId());
                 bill.setBuyerAccount(buyer.getAccount());
                 bill.setBillId(commonUtils.genAuthToken());
