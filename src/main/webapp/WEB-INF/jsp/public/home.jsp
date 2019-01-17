@@ -17,10 +17,11 @@
 </head>
 <body>
     <jsp:include page="../component/header_with_img.jsp"/>
-    <div class="container">
+    <div class="container items-container">
         <div class="row">
 
         </div>
+        <jsp:include page="../component/pagination.jsp"/>
     </div>
     <div>
         <div class="modal fade car-info-model" data-backdrop="static">
@@ -80,8 +81,6 @@
             </div>
         </div>
     </div>
-    <jsp:include page="../component/pagination.jsp"/>
-
     <jsp:include page="../component/footer.jsp"/>
 
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
