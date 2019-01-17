@@ -43,7 +43,6 @@ function getCarsInfo(page) {
         }
     })
 }
-//显示查看看或修改框
 function showModal(carId,type,obj) {
     var mainPic=document.querySelector(".img-modal");
     var imgFileUpload = document.querySelector(".img-file-upload");
@@ -65,7 +64,7 @@ function showModal(carId,type,obj) {
                 var carInfo=data.data;
                 oldData=carInfo;
                 if(carInfo!=null){
-                    mainPic.src=carInfo.carMainPic;
+                    mainPic.src=carInfo.carMainPic+"?"+Math.random();//加随机数是为了使相同图片名更改图片后可以实时显示
                     name.value=carInfo.carName;
                     price.value=carInfo.carPrice;
                     num.value=carInfo.carNum;
