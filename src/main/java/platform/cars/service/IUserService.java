@@ -20,6 +20,8 @@ public interface IUserService {
 
     boolean updateType(String account);
 
+    boolean updateQualification(String account);
+
     boolean updateToken(User user);
 
     boolean updateUserInfo(UserInfo userInfo,String authToken);

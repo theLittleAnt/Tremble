@@ -107,6 +107,8 @@ function showBillDetails(type,carId,buyerId) {
 //修改订单状态
 function alterBillStatus(obj,billId,type,carId,buyerId) {
     var bill = {};
+    var tag=false;
+    var msg;
     bill.billId=billId;
     var status;
     switch (type){
@@ -126,22 +128,58 @@ function alterBillStatus(obj,billId,type,carId,buyerId) {
         type:"post",
         data:bill,
         success:function (data) {
-            if(data.code==200){
+            if (data.code == 200) {
                 var row = obj.parentNode.parentNode;
-                row.cells[1].innerHTML=status;
+                row.cells[1].innerHTML = status;
                 var buttons = row.cells[3].childNodes;
-                while(buttons.length>1){
-                    buttons[buttons.length-1].parentNode.removeChild(buttons[buttons.length-1]);
+                while (buttons.length > 1) {
+                    buttons[buttons.length - 1].parentNode.removeChild(buttons[buttons.length - 1]);
                 }
-                buttons[0].onclick="";
-                buttons[0].onclick=function () {
-                    showBillDetails(type,carId,buyerId);
+                buttons[0].onclick = "";
+                buttons[0].onclick = function () {
+                    showBillDetails(type, carId, buyerId);
                 }
                 alert("操作成功");
-            }else if(data.code==401){
-                alert("请重新登录");
-            }else{
-                alert("操作失败");
+            } else if (data.code == 401) {
+                msg = "请重新登录";
+                tag = true;
+            } else {
+                msg = "操作失败";
+                tag = true;
+            }
+        }
+    })
+    if(tag){
+        alert(msg);
+        return;
+    }
+    if(type==3){
+        increaseCarNum(carId);
+    }
+}
+//取消订单后对应的车辆数量加
+function increaseCarNum(carId) {
+    var carInfo;
+    $.ajax({
+        url:"/cars-sale/car-info/single",
+        type:"post",
+        data:"carId="+carId,
+        async:false,
+        success:function (data) {
+            if(data.code==200){
+                carInfo=data.data;
+            }
+        }
+    })
+    carInfo.carNum=carInfo.carNum+1;
+    $.ajax({
+        url:"/cars-sale/car-info/alter",
+        type:"post",
+        data:carInfo,
+        async:false,
+        success:function (data) {
+            if(data.code==200){
+                console.log("数量增加成功");
             }
         }
     })

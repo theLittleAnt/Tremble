@@ -57,7 +57,7 @@ function toggle(tag) {
             save_btn.style.display="none";
             cancel_btn.style.display="none";
             break;
-        case "2":
+        case "2": //保存内容
             var userInfo = {};
             var tagLength = 0;
             if(oldData.name==""){
@@ -72,8 +72,8 @@ function toggle(tag) {
             if(email.value!=oldData.email){
                 userInfo.email = email.value;
             }
-            if(oldData.age!=""){//如果年龄旧值不为空，年龄必须带上,不然后台因为null默认给age设置为0
-                userInfo.age = parseInt(age.value!=""?age.value:oldData.age);
+            if(oldData.age!=""){//如果年龄旧值不为空，年龄必须带上,不然后台因为null报错
+                userInfo.age = parseInt(age.value!=""?age.value:0);
                 if(age.value==oldData.age){//相等意味的没修改
                     tagLength=1;
                 }
@@ -102,6 +102,9 @@ function saveUserInfo(userInfo) {
         success:function (data) {
             if(data.code==200){
                 alert("修改成功");
+                if(userInfo.name!=undefined){
+                    document.querySelector(".checked-user").innerHTML="&nbsp;&nbsp;"+userInfo.name;
+                }
                 resetOldData(userInfo);
                 toggle("0");
             }else{

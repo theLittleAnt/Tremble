@@ -46,6 +46,18 @@ public class CommonController {
         return "jsp/personalcenter/personal_center_cars_info";
     }
 
+    //个人中心用户申请成为卖家
+    @RequestMapping("/personal-user-apply")
+    public String toPersonalUserApply() {
+        return "jsp/personalcenter/personal_center_user_apply";
+    }
+
+    //个人中心管理员审核
+    @RequestMapping("/personal-admin-check")
+    public String toPersonalAdminCheck() {
+        return "jsp/personalcenter/personal_center_admin_check";
+    }
+
     /**
      * 删除cookie并且跳转到登陆页面
      * @param request

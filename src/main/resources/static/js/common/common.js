@@ -23,6 +23,14 @@ function toPersonalSellerBill() {
 function toPersonalSellerCars() {
     window.location.href="/cars-sale/personal-seller-cars";
 }
+//个人中心 用户卖家申请
+function toPersonalUserApply() {
+    window.location.href="/cars-sale/personal-user-apply";
+}
+//个人中心 管理员审核资质
+function toPersonalAdminCheck() {
+    window.location.href="/cars-sale/personal-admin-check";
+}
 //检查输入框中的值
 function checkValue(select,type){
     //id-card:身份证号

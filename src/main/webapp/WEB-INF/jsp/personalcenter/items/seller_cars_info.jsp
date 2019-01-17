@@ -9,7 +9,7 @@
                     <th>数量</th>
                     <th>
                         <span>操作</span>
-                        <button class="glyphicon glyphicon-plus btn btn-default btn-xs btn-add"></button>
+                        <button class="glyphicon glyphicon-plus btn btn-default btn-xs btn-add" onclick="showAddModal()"></button>
                     </th>
                 </tr>
             </thead>
@@ -32,28 +32,36 @@
                 <div class="modal-body">
                     <div class="img-container-modal text-center">
                         <img src="" alt="图片无法显示" class="img-thumbnail img-modal">
-                        <input type="file" class="img-file-upload">
+                        <input type="file" class="img-file-upload" accept="image/*">
                     </div>
                     <div class="content-modal text-left">
                         <div class="car-id-modal"></div>
                         <div>
                             <span>车辆名：</span>
-                            <input type="text" class="car-name-modal" oninput="checkValue('.car-name-modal','eSpetial')" maxlength="32">
+                            <input type="text" class="car-name-modal" data-toggle="tooltip" data-placement="auto top"
+                                   oninput="checkValue('.car-name-modal','eSpetial')" maxlength="32">
                         </div>
                         <div>
                             <span>价格：</span>
-                            <strong><input type="number" class="price-modal" oninput="checkValue('.price-modal','num')"></strong>
+                            <strong>
+                                <input type="number" class="price-modal"
+                                       oninput="checkValue('.price-modal','num')">
+                            </strong>
                             <span>&nbsp;&nbsp;元</span>
                         </div>
                         <div>
                             <span>剩余数量：</span>
-                            <strong><input type="number" class="number-modal" oninput="checkValue('.price-modal','num')"></strong>
+                            <strong>
+                                <input type="number" class="number-modal"
+                                       oninput="checkValue('.price-modal','num')">
+                            </strong>
                             <span>&nbsp;&nbsp;辆</span>
                         </div>
                         <div>
                             <span>交易地点：</span>
                             <strong>
-                                <input type="text" class="trade-place-modal" oninput="checkValue('.car-name-modal','eSpetial')" maxlength="200">
+                                <input type="text" class="trade-place-modal" data-toggle="tooltip" data-placement="auto top"
+                                       oninput="checkValue('.car-name-modal','eSpetial')" maxlength="200">
                             </strong>
                         </div>
                         <div>

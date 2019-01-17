@@ -73,24 +73,10 @@ function showModal(carId,type,obj) {
     })
     switch (type){
         case 0://查看
-            name.disabled=true;
-            imgFileUpload.disabled=true;
-            price.disabled=true;
-            num.disabled=true;
-            tradePlace.disabled=true;
-            description.disabled=true;
-            btn.disabled=true;
-            btn.style.display="none";
+            toggleModalItems(1);
             break;
         case 1://修改
-            name.disabled=false;
-            imgFileUpload.disabled=false;
-            price.disabled=false;
-            num.disabled=false;
-            tradePlace.disabled=false;
-            description.disabled=false;
-            btn.disabled=false;
-            btn.style.display="unset";
+            toggleModalItems(0);
             btn.onclick="";
             btn.onclick=function () {
                 newData.carId=carId;
@@ -101,20 +87,17 @@ function showModal(carId,type,obj) {
                     newData.carName=name.value;
                     formData.append("carName",name.value);
                 }
-                if(price.value!=null){
-                    newData.carPrice=price.value;
-                    if(price.value==oldData.carPrice){
-                        cmpLen+=1;
-                    }
-                    formData.append("carPrice",parseFloat(price.value));
+                newData.carPrice=price.value==""?0:parseFloat(price.value);
+                if(price.value==oldData.carPrice){
+                    cmpLen+=1;
                 }
-                if(num.value!=null){
-                    newData.carNum=num.value;
-                    if(num.value==oldData.carNum){
-                        cmpLen+=1;
-                    }
-                    formData.append("carNum",parseInt(num.value));
+                formData.append("carPrice",price.value==""?0:parseFloat(price.value));
+
+                newData.carNum=num.value==""?0:parseInt(num.value);
+                if(num.value==oldData.carNum){
+                    cmpLen+=1;
                 }
+                formData.append("carNum",num.value==""?0:parseInt(num.value));
                 if(tradePlace.value!=oldData.carTradePlace){
                     newData.carTradePlace=tradePlace.value;
                     formData.append("carTradePlace",tradePlace.value);
@@ -160,7 +143,11 @@ function alterCarInfo(formData) {
         data:formData,
         success:function (data) {
             if(data.code==200){
-
+                alert("修改成功");
+            }else if(data.code==401){
+                alert("请重新登录");
+            }else{
+                alert("请求出错");
             }
         }
     })
@@ -192,4 +179,109 @@ function dropCarInfo(obj,carId) {
             }
         }
     })
+}
+//显示新增模块
+function showAddModal() {
+    var mainPic=document.querySelector(".img-modal");
+    var imgFileUpload = document.querySelector(".img-file-upload");
+    var name=document.querySelector(".car-name-modal");
+    var price=document.querySelector(".price-modal");
+    var num=document.querySelector(".number-modal");
+    var tradePlace=document.querySelector(".trade-place-modal");
+    var description=document.querySelector(".car-description-text-modal");
+    var btn=document.querySelector(".btn-alter");
+
+    toggleModalItems(0);
+
+    mainPic.src="/cars-sale/static/touxiang.jpg";
+    name.value="";
+    price.value=0;
+    num.value=0;
+    tradePlace.value="";
+    description.value="";
+    btn.onclick="";
+    btn.onclick=function () {
+        addCarInfo();
+    }
+    $(".car-info-model").modal("show");
+}
+//添加车辆信息
+function addCarInfo() {
+    var imgFileUpload = document.querySelector(".img-file-upload");
+    var name=document.querySelector(".car-name-modal");
+    var price=document.querySelector(".price-modal");
+    var num=document.querySelector(".number-modal");
+    var tradePlace=document.querySelector(".trade-place-modal");
+    var description=document.querySelector(".car-description-text-modal");
+
+    var formData=new FormData();
+    if(imgFileUpload.files.length>0){
+        formData.append("file",imgFileUpload.files[0]);
+    }
+    if(name.value==""){
+        showToolTip(".car-name-modal","show",1000,"车辆名不能为空");
+        return;
+    }
+    if(tradePlace.value==""){
+        showToolTip(".trade-place-modal","show",1000,"交易地点不能为空");
+        return;
+    }
+    formData.append("carName",name.value);
+    formData.append("carNum",parseInt(num.value==""?0:num.value));
+    formData.append("carPrice",parseFloat(price.value==""?0:price.value));
+    formData.append("carTradePlace",tradePlace.value);
+    if(description.value!=""){
+        formData.append("carDescription",description.value);
+    }
+    $.ajax({
+        url:"/cars-sale/car-info/save",
+        type:"post",
+        data:formData,
+        cache:false,
+        contentType:false,
+        processData:false,
+        success:function (data) {
+            if (data.code == 200) {
+                getCarsInfo(1);
+                alert("新增成功");
+            } else if (data.code == 200) {
+                alert("请重新登录");
+            } else {
+                alert("出现错误");
+            }
+        }
+    })
+    $(".car-info-model").modal("hide");
+}
+//modal控件是否可用0可用1不可用
+function toggleModalItems(type) {
+    var imgFileUpload = document.querySelector(".img-file-upload");
+    var name=document.querySelector(".car-name-modal");
+    var price=document.querySelector(".price-modal");
+    var num=document.querySelector(".number-modal");
+    var tradePlace=document.querySelector(".trade-place-modal");
+    var description=document.querySelector(".car-description-text-modal");
+    var btn=document.querySelector(".btn-alter");
+    switch (type){
+        case 0:
+            name.disabled=false;
+            imgFileUpload.disabled=false;
+            price.disabled=false;
+            num.disabled=false;
+            tradePlace.disabled=false;
+            description.disabled=false;
+            btn.disabled=false;
+            btn.style.display="unset";
+            break;
+        case 1:
+            name.disabled=true;
+            imgFileUpload.disabled=true;
+            price.disabled=true;
+            num.disabled=true;
+            tradePlace.disabled=true;
+            description.disabled=true;
+            btn.disabled=true;
+            btn.style.display="none";
+            break;
+    }
 }

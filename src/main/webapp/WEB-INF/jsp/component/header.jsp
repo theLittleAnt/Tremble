@@ -25,6 +25,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="javascript:toPersonal()">用户信息</a></li>
                             <li><a href="javascript:toPersonalUserBill()">订单信息</a></li>
+                            <li><a href="javascript:toPersonalUserApply()">申请卖家</a></li>
                         </ul>
                     </li>
                     <li class="dropdown seller-op">
@@ -43,7 +44,7 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">审核资质</a></li>
+                            <li><a href="javascript:toPersonalAdminCheck()">审核资质</a></li>
                         </ul>
                     </li>
                 </ul>

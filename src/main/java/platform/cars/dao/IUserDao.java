@@ -18,11 +18,13 @@ public interface IUserDao {
 
     int updateType(String account);
 
+    int updateQualification(String account);
+
     int updateToken(User user);
 
     User findUserByToken(String authToken);
 
-    int saveUserInfo(UserInfo userInfo);
+    int saveUserInfo(String account);
 
     int updateUserInfo(UserInfo userInfo);
 

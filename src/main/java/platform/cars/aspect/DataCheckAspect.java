@@ -63,7 +63,6 @@ public class DataCheckAspect {
             switch (uri){
                 case "/cars-sale/car-info/drop":
                 case "/cars-sale/car-info/save":
-                case "/cars-sale/car-info/alter":
                 case "/cars-sale/car-info/owners":
                 case "/cars-sale/bill/paginated-seller":{
                     if (type == 1){

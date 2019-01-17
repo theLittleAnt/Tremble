@@ -52,7 +52,7 @@ function getCarPaginationInfo(page) {
                 var len = carsList.length;
                 for(var i =0;i<len;i++){
                     //拼接成caritem
-                    dataList.push("<div class=\"col-md-3 col-sm-4 col-xs-6\" onclick='showCarInfoModal("+carsList[i].carId+")'>");
+                    dataList.push("<div class=\"col-md-3 col-sm-4 col-xs-6\" onclick=\"showCarInfoModal('"+carsList[i].carId+"')\">");
                     dataList.push("<div class=\"carItemContainer\">");
                     dataList.push("<div class=\"imgContainer text-center\">");
                     dataList.push("<img src=\""+carsList[i].carMainPic+"\" alt=\"图片无法显示\" class=\"img-thumbnail\"></div>");
@@ -63,7 +63,7 @@ function getCarPaginationInfo(page) {
                                   "<span>&nbsp;&nbsp;元</span></div></div>");
                     dataList.push("<div class=\"operationContainer text-right\">");
                     dataList.push("<button class=\"glyphicon glyphicon-shopping-cart btn btn-default" +
-                        " btn-xs buyBtn\" onclick='buy("+carsList[i].carId+")'>购买</button></div></div></div>");
+                        " btn-xs buyBtn\" onclick=\"buy('"+carsList[i].carId+"')\">购买</button></div></div></div>");
                 }
                 var row = document.querySelector(".row");
                 row.innerHTML=dataList.join("");//数组转字符串
@@ -122,10 +122,10 @@ function showCarInfoModal(carId) {
         }
     })
     $.ajax({
-        url:"/cars-sale/user/seller-info",
+        url:"/cars-sale/user/user-info",
         type:"post",
         async:false,
-        data:"ownerId="+ownerId,
+        data:"userId="+ownerId,
         success:function (data) {
             if(data.code==200 && data!=null){
                 var seller = data.data;

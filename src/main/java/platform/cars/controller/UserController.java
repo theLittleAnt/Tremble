@@ -163,7 +163,7 @@ public class UserController {
      */
     @RequestMapping("/seller-request")
     @DataCheckAnotation
-    public Map<String, Object> dataCheck(String authToken) {
+    public Map<String, Object> dataCheck() {
         Map<String, Object> map = new HashMap<>();
         map.put("data", userService.findSellerRequestList());
         map.put("code", 200);
@@ -184,6 +184,27 @@ public class UserController {
         int code = 400;
         String msg = "fail";
         if (userService.updateType(account)) {
+            code = 200;
+            msg = "success";
+        }
+        map.put("code", code);
+        map.put("msg", msg);
+        return map;
+    }
+
+    /**
+     * 撤销用户的申请
+     *
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping("/erase")
+    @DataCheckAnotation
+    public Map<String, Object> updateQualification(String account) {
+        Map<String, Object> map = new HashMap<>();
+        int code = 400;
+        String msg = "fail";
+        if (userService.updateQualification(account)) {
             code = 200;
             msg = "success";
         }
@@ -215,7 +236,7 @@ public class UserController {
      * @return
      */
     @RequestMapping("/user-info")
-    public Map<String, Object> getSellerInfoById(String userId) {
+    public Map<String, Object> getUserInfoById(String userId) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", userService.findUserInfoById(userId));
         map.put("code", 200);

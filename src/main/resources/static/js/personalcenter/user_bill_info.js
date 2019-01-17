@@ -80,7 +80,7 @@ function showBillDetails(type,carId) {
             }
         })
         $.ajax({
-            url:"/cars-sale/user/userId",
+            url:"/cars-sale/user/user-info",
             type:"post",
             async:false,
             data:"userId="+ownerId,
@@ -113,6 +113,8 @@ function showBillDetails(type,carId) {
 //修改订单状态
 function alterBillStatus(obj,billId,type,carId) {
     var bill = {};
+    var tag = false;//用来判断是否终止
+    var msg;
     bill.billId=billId;
     var status;
     switch (type){
@@ -124,28 +126,67 @@ function alterBillStatus(obj,billId,type,carId) {
             bill.status=3;
             status="订单关闭";
             break;
+        default:
+            return;
     }
     $.ajax({
         url:"/cars-sale/bill/alter",
         type:"post",
+        async:false,
         data:bill,
         success:function (data) {
             if(data.code==200){
                 var row = obj.parentNode.parentNode;
                 row.cells[1].innerHTML=status;
-                var buttoms = row.cells[3].childNodes;
-                while(buttoms.length>1){
-                    buttoms[buttoms.length-1].parentNode.removeChild(buttoms[buttoms.length-1]);
+                var buttons = row.cells[3].childNodes;
+                while(buttons.length>1){
+                    buttons[buttons.length-1].parentNode.removeChild(buttons[buttons.length-1]);
                 }
-                buttoms[0].onclick="";
-                buttoms[0].onclick=function(){
+                buttons[0].onclick="";
+                buttons[0].onclick=function(){
                     showBillDetails(type,carId);
                 }
                 alert("操作成功");
             }else if(data.code==401){
-                alert("请重新登录");
+                msg="请重新登录";
+                tag = true;
             }else{
-                alert("操作失败");
+                msg="操作失败";
+                tag = true;
+            }
+        }
+    })
+    if(tag){
+        alert(msg);
+        return;
+    }
+    if(type==3){
+        increaseCarNum(carId);
+    }
+}
+//取消订单后对应的车辆数量加
+function increaseCarNum(carId) {
+    var carInfo;
+    $.ajax({
+        url:"/cars-sale/car-info/single",
+        type:"post",
+        data:"carId="+carId,
+        async:false,
+        success:function (data) {
+            if(data.code==200){
+                carInfo=data.data;
+            }
+        }
+    })
+    carInfo.carNum=carInfo.carNum+1;
+    $.ajax({
+        url:"/cars-sale/car-info/alter",
+        type:"post",
+        data:carInfo,
+        async:false,
+        success:function (data) {
+            if(data.code==200){
+                console.log("数量增加成功");
             }
         }
     })

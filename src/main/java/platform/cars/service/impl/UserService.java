@@ -2,6 +2,7 @@ package platform.cars.service.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -28,6 +29,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private CommonUtils commonUtils;
+
+    @Value("${web.upload-path}")
+    private String path;
     /**
      * 获取登录的token信息
      * 验证token是否过期，
@@ -88,9 +92,13 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public boolean register(User user) {
+        boolean tag = false;
         user.setAuthToken(commonUtils.genAuthToken());
         user.setTokenGenTime(commonUtils.dateToStr(new Date()));
-        return userDao.saveUser(user)>0?true:false;
+        if(userDao.saveUser(user)>0&&userDao.saveUserInfo(user.getAccount())>0){
+            tag=true;
+        }
+        return tag;
     }
 
     /**
@@ -119,6 +127,22 @@ public class UserService implements IUserService {
     @Transactional
     public boolean updateType(String account) {
         return userDao.updateType(account)>0?true:false;
+    }
+
+    /**
+     * 撤销用户申请
+     * @param account
+     * @return
+     */
+    @Override
+    public boolean updateQualification(String account) {
+        UserInfo userInfo = userDao.findUserInfoById(account);
+        if(!StringUtils.isEmpty(userInfo.getQualifications())){
+            String fileName = userInfo.getQualifications();
+            fileName=fileName.substring(fileName.lastIndexOf("/"));
+            fileUtils.dropFile(path+fileName);
+        }
+        return userDao.updateQualification(account)>0?true:false;
     }
 
     /**
@@ -217,8 +241,8 @@ public class UserService implements IUserService {
             User user = userDao.findUserByToken(authToken);
             if(null!=user){
                 String account = user.getAccount();
-                String filePath = fileUtils.picFilePath();
-                String fileName = fileUtils.picFileName(file,account);
+                String filePath = path;
+                String fileName = fileUtils.picFileName(file,account+"_q");
                 try {
                     fileUtils.uploadFile(file.getBytes(),filePath,fileName);
                 } catch (Exception e) {
@@ -226,13 +250,12 @@ public class UserService implements IUserService {
                 }
                 UserInfo userInfo = new UserInfo();
                 userInfo.setAccount(account);
-                userInfo.setQualifications("/cars-sale/static/pictures/"+fileName);
+                userInfo.setQualifications("/cars-sale/static/"+fileName);
                 if(userDao.updateUserInfo(userInfo)>0){
                     result = true;
                 }
             }
         }
-
         return result;
     }
 }
