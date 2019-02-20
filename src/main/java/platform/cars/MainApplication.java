@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 
-@SpringBootApplication
+@SpringBootApplication//注释之后其所在的包和子包会被自动扫描
 @MapperScan("platform.cars.dao")
 public class MainApplication extends SpringBootServletInitializer {
 

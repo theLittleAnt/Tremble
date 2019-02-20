@@ -3,8 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <header>
     <div class="jumbotron text-center" style="margin-bottom:0">
-        <h1>我的第一个 Bootstrap 页面</h1>
-        <p>重置浏览器窗口大小查看效果！</p>
+        <h1>the graduation designer of car sale</h1>
+        <p>No additional fees are required on this platform</p>
     </div>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
